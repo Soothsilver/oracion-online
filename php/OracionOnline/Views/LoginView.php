@@ -12,8 +12,8 @@ class LoginView implements IView
     public function invoke(Session $session) : string
     {
         if (isset($_POST["action"])) {
-            if ($this->performLoginAction()) {
-                $lobby = new LoginView();
+            if ($this->performLoginAction($session)) {
+                $lobby = new LobbyView();
                 return $lobby->invoke($session);
             }
         }
@@ -29,14 +29,49 @@ class LoginView implements IView
         return $html;
     }
 
-    private function performLoginAction() : bool
+    private function login(Session $session, string $name, string $password) : bool
+    {
+        /**
+         * @var  $user \OracionOnline\Models\User
+         */
+        $user = Doctrine::getEntityManager()->getRepository(Doctrine::USER)->findOneBy([
+           'email' => $name
+        ]);
+        if ($user == null) {
+            $this->errorMessage = "Uživatel s touto e-mailovou adresou neexistuje.";
+            return false;
+        }
+        if (password_verify($password, $user->hashedPassword))
+        {
+            $session->loginComplete($user->id, $name);
+            $user->lastHeartbeat = new \DateTime();
+            $user->queued = false;
+            Doctrine::getEntityManager()->persist($user);
+            Doctrine::getEntityManager()->flush($user);
+            return true;
+        }
+        else
+        {
+            $this->errorMessage = "Tento uživatelský účet existuje, ale zadali jste nesprávné heslo.";
+            return false;
+        }
+    }
+    private function performLoginAction(Session $session) : bool
     {
         $action = $_POST["action"];
         if ($action == "login")
         {
             $name = isset($_POST["login"]) ? $_POST["login"] : "";
             $pass = isset($_POST["password"]) ? $_POST["password"] : "";
-
+            if (!filter_var($name, FILTER_VALIDATE_EMAIL)) {
+                $this->errorMessage = "E-mail nemá správný formát.";
+                return false;
+            }
+            if (strlen($pass) < 5 || strlen($pass) > 200) {
+                $this->errorMessage = "Heslo musí mít mezi 5 a 200 znaky.";
+                return false;
+            }
+            return $this->login($session, $name, $pass);
         }
         else if ($action == "register")
         {
@@ -56,10 +91,16 @@ class LoginView implements IView
             $newUser->lastHeartbeat = new \DateTime('now');
             $newUser->gamesStarted = 0;
             $newUser->gamesWon = 0;
-            Doctrine::$entityManager->persist($newUser);
-            Doctrine::$entityManager->flush($newUser);
-            $this->errorMessage = "Uživatel zaregistrován.";
-            return false;
+            try {
+                Doctrine::getEntityManager()->persist($newUser);
+                Doctrine::getEntityManager()->flush($newUser);
+            }
+            catch (\Exception $ex)
+            {
+                $this->errorMessage = "Uživatel s touto e-mailovou adresou již existuje.";
+                return false;
+            }
+            return $this->login($session, $name, $pass);
         }
         else
         {

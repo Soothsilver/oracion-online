@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oracion Online : Lobby</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/js/fm.validator.jquery.js"></script>
+    <script src="/js/lobby.js"></script>
+</head>
+<body>
+    <div class="screen">
+        <div class="logincaption">
+            Oracion Online : Lobby
+        </div>
+        <fieldset>
+            <legend>Statistiky</legend>
+            Tvůj e-mail: <b>[[EMAIL]]</b><br>
+            Počet her: <b><span id="gameCount">(načítám...)</span></b><br>
+            Počet výher: <b><span id="gameVictories">(načítám...)</span></b><br>
+            Počet lidí online: <b><span id="numOnline">(načítám...)</span></b><br>
+        </fieldset>
+        <fieldset>
+            <legend>Hrát hru</legend>
+            <label for="deck">Vyber si balíček: </label>
+            <select name="deck" id="deck">
+                <option name="random" selected>Náhodné karty</option>
+            </select>
+                <br>
+            <div id="enterQueueForm">
+                <input type="button" value=" Najít soupeře " onclick="requestEnterQueue();">
+            </div>
+            <div id="inQueueForm">
+                Jsi ve frontě na hru. Prosím čekej, dokud ti nebude přidělen soupeř.<br><br>
+                <a href="#" onclick="requestCancelQueue(); return false;">Odejít z fronty</a>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Odhlášení</legend>
+            <a href="#" onclick="requestLogout(); return false;">Odhlásit se</a>
+        </fieldset>
+        <br><br>
+    </div>
+</body>
+</html>

@@ -7,3 +7,5 @@ $session = Session::Construct();
 
 $controller = new FrontController($session);
 $controller->invoke();
+
+Session::saveChanges($session);

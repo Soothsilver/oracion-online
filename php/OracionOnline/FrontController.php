@@ -16,13 +16,20 @@ class FrontController
 
     public function invoke()
     {
-        $isAjaxCall = isset($_GET["ajaxAction"]);
+        $isAjaxCall = isset($_GET["ajaxAction"]) || isset($_POST["ajaxAction"]);
         if ($isAjaxCall) {
-            $ajaxResponder = new AjaxResponder($this->session);
-            echo $ajaxResponder->invoke($_GET["ajaxAction"]);
+            if (isset($_GET["ajaxAction"]))
+            {
+                $ajaxResponder = new AjaxResponder($this->session);
+                echo $ajaxResponder->invoke($_GET["ajaxAction"], $_GET);
+            }
+            else {
+                $ajaxResponder = new AjaxResponder($this->session);
+                echo $ajaxResponder->invoke($_POST["ajaxAction"], $_POST);
+            }
             return;
         }
-        if ($this->session->isLoggedIn()) {
+        else if ($this->session->isLoggedIn()) {
             $lobbyView = new LobbyView();
             echo $lobbyView->invoke($this->session);
         } else {
