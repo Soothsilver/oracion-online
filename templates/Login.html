@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oracion Online</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/js/fm.validator.jquery.js"></script>
+</head>
+<body>
+    <div class="screen">
+        <div class="logincaption">
+            Oracion Online
+        </div>
+        <div class="logintext">
+            <b>Oracion Online</b> je počítačová verze karetní hry Oracion, ve které můžete hrát proti hráčům přes internet nebo proti počítači.
+            <br><br>
+            Ve hře <i>Oracion</i> je vaším úkolem získat čtyři body poražením soupěřových bytostí. Na začátku hry si vyberete balíček a pak v každém kole vyložíte z ruky na stůl jednu bytost. Každá bytost má určitou útočnou sílu vyjádřenou v počtu kostek (tedy náhodnou). Jakmile oba hráči vyloží svoji bytost, hodí se kostkami a bytost, která má menší sílu, je odložena a majitel vítězné bytostí získá bod. Podrobná pravidla se zobrazí ve formě tipů přímo během hry.
+        </div>
+        [[ERROR-MESSAGES]]
+        <hr>
+        <div class="form">
+            <div class="formtitle">Přihlašovací formulář</div>
+            <br>
+            <form action="?" method="post">
+                <input type="hidden" name="action" value="login">
+                <div class="formfield"><input type="text" name="login" placeholder="Váš e-mail" value="[[OLD-LOGIN]]"></div>
+                <div class="formfield"><input type="password" name="password" placeholder="Heslo"></div>
+                <div class="formfield"><input type="submit" value="Přihlásit se"></div>
+            </form>
+        </div>
+        <hr>
+        <div class="form">
+            <div class="formtitle">Založit nového uživatele</div>
+            <br>
+            <form action="?" method="post">
+                <input type="hidden" name="action" value="register">
+                <div class="formfield"><input type="text" name="reglogin" placeholder="Váš e-mail" value="[[OLD-REGISTER-LOGIN]]"></div>
+                <div class="formfield"><input type="password" name="password" placeholder="Heslo"></div>
+                <div class="formfield"><input type="password" name="password2" placeholder="Heslo (znovu)"></div>
+                <div class="formfield"><input type="submit" value="Založit nového uživatele"></div>
+            </form>
+        </div>
+        <div class="logintext">
+            Hra <i>Oracion Online</i> byla vytvořena na jaře 2016. Pro použití potřebujete účet Google.
+
+            Oracion byla karetní hra pro vlčata 7. skautského oddílu Karibu v letech 2009 až 2011. Za úspěchy na schůzkách mohla vlčata získávat nové karty, se kterými vylepšovala svoje balíčky.
+        </div>
+    </div>
+</body>
+</html>

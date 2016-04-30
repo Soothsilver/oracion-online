@@ -1,0 +1,60 @@
+body {
+    background-color: #bed7ff;
+}
+.screen {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    border-radius: 15px;
+    background-color: #dcefff;
+    border: 1px solid black;
+}
+.logincaption {
+    font-size: 36pt;
+    font-family: 'Cambria', serif;
+    text-align: center;
+    margin: auto;
+}
+#my-signin2 div {
+    margin: auto;
+    font-weight: bold;
+}
+.screen div.logintext {
+    text-align: justify;
+    font-family: Calibri, serif;
+    padding: 15px;
+    margin: auto;
+}
+.form {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-align: center;
+}
+.formtitle {
+    font-weight: bold;
+    padding-top: 5px;
+}
+.formfield{
+    margin: auto;
+    width: 300px;
+    text-align: center;
+    padding-bottom: 1px;
+}
+.formfield input {
+    width: 100%;
+    margin: auto;
+}
+.error {
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: #f6c47b;
+    margin: 5px auto 5px auto;
+    padding: 5px;
+}

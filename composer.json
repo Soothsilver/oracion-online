@@ -1,0 +1,12 @@
+{
+   "name": "soothsilver/oracion-online",
+   "license": "proprietary",
+   "autoload": {
+       "psr-0": {
+         "OracionOnline\\" : "php/"
+       }
+   },
+   "require": {
+      "doctrine/orm": "~2.5.4"
+   }
+}
