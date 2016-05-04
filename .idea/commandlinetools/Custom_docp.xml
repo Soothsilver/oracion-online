@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<framework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schemas/frameworkDescriptionVersion1.1.4.xsd" name="Custom_docp" invoke="C:\php\php.exe vendor/doctrine/orm/bin/doctrine.php" alias="docp" enabled="true" version="2">
+  <help><![CDATA[Doctrine in Prague]]></help>
+  <command>
+    <name>orm:schema-tool:update</name>
+    <help>
+      Updates the database based on PHP files.
+    </help>
+    <optionsBefore>
+      <option name="--dump-sql"></option>
+      <option name="--force"></option>
+    </optionsBefore>
+  </command>
+</framework>
+

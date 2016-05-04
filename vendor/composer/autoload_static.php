@@ -16,6 +16,10 @@ class ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Console\\' => 26,
         ),
+        'K' => 
+        array (
+            'Katzgrau\\KLogger\\' => 17,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -33,6 +37,10 @@ class ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Katzgrau\\KLogger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/katzgrau/klogger/src',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -48,6 +56,13 @@ class ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa
     );
 
     public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Psr\\Log\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/psr/log',
+            ),
+        ),
         'O' => 
         array (
             'OracionOnline\\' => 
@@ -84,12 +99,17 @@ class ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa
         ),
     );
 
+    public static $classMap = array (
+        'Katzgrau\\KLogger\\Logger' => __DIR__ . '/..' . '/katzgrau/klogger/src/Logger.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit761fe80f50d6a381c3ac002bdb6094aa::$classMap;
 
         }, null, ClassLoader::class);
     }

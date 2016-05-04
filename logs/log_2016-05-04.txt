@@ -1,0 +1,9 @@
+[2016-05-04 7:06:23.255999] [error] An exception occurred while executing 'INSERT INTO users (email, hashedPassword, lastHeartbeat, gamesWon, gamesStarted, queued) VALUES (?, ?, ?, ?, ?, ?)' with params ["a@a.cz", "$2y$10$7vvvHP4QibUFWaL4HfdQTuvBTJ73u0hpEdrT3p22eqZf8dGuptcQq", "2016-05-04 07:06:19", 0, 0, null]:
+
+Column 'queued' cannot be null
+[2016-05-04 7:11:06.092844] [error] An exception occurred while executing 'INSERT INTO users (email, hashedPassword, lastHeartbeat, gamesWon, gamesStarted) VALUES (?, ?, ?, ?, ?)' with params ["a@a.cz", "$2y$10$9hDBMLf\/fH34QTeARA1qZu\/RWqABbePqxH27d1dZbLO6\/4syPUNPC", "2016-05-04 07:11:05", 0, 0]:
+
+Field 'queued' doesn't have a default value
+[2016-05-04 7:11:10.331845] [error] An exception occurred while executing 'INSERT INTO users (email, hashedPassword, lastHeartbeat, gamesWon, gamesStarted) VALUES (?, ?, ?, ?, ?)' with params ["a@a.cz", "$2y$10$JyVW\/3JpkCGxLNNpTB7K..ggsWbEHRTQA.OJvy2IpbJuRcZXIRo6S", "2016-05-04 07:11:10", 0, 0]:
+
+Field 'queued' doesn't have a default value

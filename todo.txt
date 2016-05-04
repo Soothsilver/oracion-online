@@ -1,3 +1,2 @@
-Javascript-side validace formulářů.
 Registrační formulář na jinou stránku.
 Srovnání potvrzovacího tlačítka formulářů uprostřed.

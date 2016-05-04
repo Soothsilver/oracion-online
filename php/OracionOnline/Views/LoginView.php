@@ -97,7 +97,9 @@ class LoginView implements IView
             }
             catch (\Exception $ex)
             {
-                $this->errorMessage = "Uživatel s touto e-mailovou adresou již existuje.";
+                $this->errorMessage = "Uživatel s touto e-mailovou adresou již existuje nebo se nepodařilo připojit k databázi.";
+                $logger = new \Katzgrau\KLogger\Logger("logs");
+                $logger->error($ex->getMessage());
                 return false;
             }
             return $this->login($session, $name, $pass);

@@ -1,9 +1,8 @@
 <?php
 
-
 namespace OracionOnline;
 
-
+use Katzgrau;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
 use Doctrine\ORM\Tools\Setup;
@@ -15,7 +14,7 @@ class Doctrine
      * @var EntityManager
      */
     private static $entityManager;
-
+    private static $debug;
     public static function getEntityManager() : EntityManager
     {
         if (self::$entityManager == null) {

@@ -19,39 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/inflector" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
-          <root url="file://$MODULE_DIR$/vendor/symfony/console" />
-          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/inflector" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
-          <root url="file://$MODULE_DIR$/vendor/symfony/console" />
-          <root url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="platform" level="application" />
     <orderEntry type="module-library">
       <library name="PHARS">

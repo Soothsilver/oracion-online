@@ -36,8 +36,4 @@ class User
      * @Column(type="integer")
      */
     public $gamesStarted;
-    /**
-     * @Column(type="boolean")
-     */
-    public $queued;
 }
