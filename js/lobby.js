@@ -14,8 +14,27 @@ $(document).ready(function() {
     heartbeatSend();
     */
     statisticsSend();
+    requestGamesList();
     $("#inQueueForm").hide();
 });
+var gamesList = null;
+function updateGamesList(newList) {
+    var list = $("#games");
+    var selectedOption = $("#games").val();
+    list.empty();
+    console.log(selectedOption);
+    $.each(newList, function (key,value) {
+        var gameRepresentation = "Hra " + value.id + " (" + value.firstPlayer + " vs. " + value.secondPlayer + ", status " + value.status + ")";
+
+       var newElement = $("<option></option>")
+           .attr("value", value.id).text(gameRepresentation);
+
+        if (value.id == selectedOption) {
+            newElement.attr("selected", "selected");
+        }
+        list.append(newElement);
+    });
+}
 var requestGamesList = function () {
     $.ajax({
         type: "GET",
@@ -24,7 +43,36 @@ var requestGamesList = function () {
             "ajaxAction" : "listGames"
         },
         success: function (msg) {
-            console.log("Games list: " + msg);
+            updateGamesList(msg);
+        }
+    });
+};
+var requestJoinGame = function () {
+    var selectedOption = $("#games").val();
+    if (!selectedOption) {
+        alert("Nejprve musíte vybrat hru.");
+        return;
+    }
+    $("#buttonJoinGame").val("Připojuji se ke hře...");
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+            "ajaxAction" : "joinGame",
+            "deck": $("#deck").val(),
+            "id": selectedOption
+        },
+        success: function(msg) {
+            console.log("Game joined.");
+            console.log(msg);
+            if (msg) {
+                window.location.href = "?game=" + selectedOption;
+            } else {
+                $("#buttonJoinGame").val("Ke hře se nepodařilo připojit. Zkusit znovu?");
+            }
+        },
+        error: function (msg) {
+            $("#buttonJoinGame").val("Ke hře se nepodařilo připojit. Zkusit znovu?");
         }
     });
 };
@@ -34,7 +82,8 @@ var requestCreateGame = function () {
         type: "POST",
         dataType: "json",
         data: {
-            "ajaxAction" : "createGame"
+            "ajaxAction" : "createGame",
+            "deck": $("#deck").val()
         },
         success: function(msg) {
             console.log("Game created.");

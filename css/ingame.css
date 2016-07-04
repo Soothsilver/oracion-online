@@ -1,0 +1,100 @@
+.ingamescreen {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    height: 800px;
+    border-radius: 5px;
+    background-color: #dcefff;
+    border: 1px solid black;
+    position: relative;
+}
+.zone {
+    border: #cefdf3 1px solid;
+    border-radius: 10px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(82, 168, 236, 0.6);
+    background-color: #d8f1f5;
+    text-align: center;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    font-family: serif;
+    font-style: italic;
+    justify-content: center;
+}
+#yourDiscardPile {
+    left: 20px;
+    width: 150px;
+    height: 200px;
+    bottom: 20px;
+}
+#yourDeck {
+    left: 200px;
+    width: 150px;
+    height: 200px;
+    bottom: 20px;
+}
+#yourHand {
+    left: 380px;
+    width: 700px;
+    height: 200px;
+    bottom: 20px;
+}
+#enemyDiscardPile {
+    left: 20px;
+    width: 150px;
+    height: 200px;
+    top: 20px;
+}
+#enemyDeck {
+    left: 200px;
+    width: 150px;
+    height: 200px;
+    top: 20px;
+}
+#enemyHand {
+    left: 380px;
+    width: 700px;
+    height: 30px;
+    top: 5px;
+}
+#yourArena {
+    right: 300px;
+    width: 200px;
+    height: 250px;
+    top: 305px;
+}
+#enemyArena {
+    right: 300px;
+    width: 200px;
+    height: 250px;
+    top: 45px;
+}
+#middlebar {
+    left: 0px;
+    width: 1200px;
+    height: 40px;
+    top: 280px;
+    background-color: #f3af95;
+    box-shadow: 0px 1px 3px rgba(255, 1, 1, 0.05) inset, 0px 0px 8px rgba(255, 0, 0, 0.6) !important;
+    border: 1px solid red;
+}
+#statistics {
+    position: absolute;
+    background-color: #bed7ff;
+    left: 50px;
+    width: 300px;
+    height: 150px;
+    top: 350px;
+    border: black 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+/* <div id="yourHand" class="zone">Tvoje ruka</div>
+    <div id="enemyHand" class="zone">Soupeřova ruka</div>
+    <div id="yourArena" class="zone">Tvoje aktivní bytost</div>
+    <div id="enemyArena" class="zone">Soupeřova aktivní bytost</div>
+    <div id="yourDiscardPile" class="zone">Tvůj odhazovací balíček</div>
+    <div id="enemyDiscardPile" class="zone">Soupeřův odhazovací balíček</div>
+    <div id="middlebar" class="zone">Hra se načítá ...</div>*/

@@ -13,9 +13,13 @@ var requestReturnToLobby = function () {
     },
     success: function(msg) {
       if (msg) {
-        console.log("Game cancelled.");
-        console.log(msg);
-        window.location.href = "?";
+        if (msg.success) {
+          console.log("Game cancelled.");
+          console.log(msg);
+          window.location.href = "?";
+        } else {
+          $("#buttonCancel").text("Hru se nepodařilo zrušit (" + msg.reason + "). Zkusit znovu?");
+        }
       } else {
         console.log("Game not cancelled.");
         $("#buttonCancel").text("Hru se nepodařilo zrušit. Zkusit znovu?");

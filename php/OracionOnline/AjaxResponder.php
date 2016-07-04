@@ -17,8 +17,29 @@ class AjaxResponder
             return "false";
         }
         switch($action) {
-            case "cancelGameAsCreator":
+            case "joinGame":
                 return "false";
+            case "cancelGameAsCreator":
+                if (!isset($data["id"])) {
+                    return json_encode(["success" => false, "reason" => "Data ID not set." ]);
+                }
+                $gameId = $data["id"];
+                try {
+                    Doctrine::getEntityManager()->transactional(function () use ($gameId) {
+                        /**
+                         * @var $game Game
+                         */
+                        $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $gameId);
+                        if ($game->firstPlayer->id == $this->session->getUser()->id) {
+                            $game->status = Game::STATUS_TERMINATED;
+                        } else {
+                            throw new \Exception("You are not the creator.");
+                        }
+                    });
+                    return json_encode(["success" => true]);
+                } catch (\Exception $ex) {
+                    return json_encode(["success" => false, "reason" => $ex->getMessage()]);
+                }
             case "listGames":
                 $gamesRepository = Doctrine::getEntityManager()->getRepository(Doctrine::GAME);
                 /**

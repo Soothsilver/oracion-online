@@ -8,6 +8,6 @@
    },
    "require": {
       "doctrine/orm": ">=2.5.4 <2.6.0",
-      "katzgrau/klogger": "^1.2"
+      "katzgrau/klogger": "dev-master"
    }
 }
