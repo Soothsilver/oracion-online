@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<framework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schemas/frameworkDescriptionVersion1.1.4.xsd" name="Custom_doch" invoke="D:/ONEDRIVE/Sync/php/php.exe vendor/doctrine/orm/bin/doctrine.php" alias="doch" enabled="true" version="2">
+  <command>
+    <name>orm:schema-tool:update</name>
+    <help><![CDATA[Updates the database based on PHP files.]]></help>
+    <optionsBefore>
+      <option name="--dump-sql" />
+      <option name="--force" />
+    </optionsBefore>
+  </command>
+  <help><![CDATA[Doctrine in Hala]]></help>
+</framework>
+

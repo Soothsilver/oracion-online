@@ -1,14 +1,55 @@
 $(document).ready(function() {
+    /*
    setInterval(function() {
        heartbeatSend();
    }, 1000);
+    */
     setInterval(function() {
         statisticsSend();
     }, 10000);
+    setInterval(function () {
+        requestGamesList();
+    }, 5000);
+    /*
     heartbeatSend();
+    */
     statisticsSend();
     $("#inQueueForm").hide();
 });
+var requestGamesList = function () {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: {
+            "ajaxAction" : "listGames"
+        },
+        success: function (msg) {
+            console.log("Games list: " + msg);
+        }
+    });
+};
+var requestCreateGame = function () {
+    $("#buttonCreateGame").val("Zakládám hru...");
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {
+            "ajaxAction" : "createGame"
+        },
+        success: function(msg) {
+            console.log("Game created.");
+            console.log(msg);
+            if (msg) {
+                window.location.href = "?waitForGame=" + msg.id;
+            } else {
+                $("#buttonCreateGame").val("Hru se nepodařilo vytvořit. Pokusit se znovu?");
+            }
+        },
+        error: function (msg) {
+            console.log("Game not created.");
+        }
+    });
+};
 var requestLogout = function() {
     $.ajax({
         type: "POST",
@@ -23,28 +64,6 @@ var requestLogout = function() {
             }
         }
     })
-};
-var requestEnterQueue = function() {
-  $("#enterQueueForm").hide();
-  $("#inQueueForm").show();
-  $.ajax({
-        type: "POST",
-        data : {
-            "ajaxAction" : "changeQueueState",
-            "targetState" : "true"
-        }
-  });
-};
-var requestCancelQueue = function() {
-    $("#enterQueueForm").show();
-    $("#inQueueForm").hide();
-    $.ajax({
-       type: "POST",
-       data : {
-           "ajaxAction" : "changeQueueState",
-           "targetState" : "false"
-       }
-    });
 };
 var statisticsSend = function() {
     $.ajax({

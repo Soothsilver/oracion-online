@@ -2,6 +2,7 @@
 namespace OracionOnline;
 use OracionOnline\Views\LobbyView;
 use OracionOnline\Views\LoginView;
+use OracionOnline\Views\WaitingView;
 
 class FrontController
 {
@@ -30,8 +31,13 @@ class FrontController
             return;
         }
         else if ($this->session->isLoggedIn()) {
-            $lobbyView = new LobbyView();
-            echo $lobbyView->invoke($this->session);
+            if (isset($_GET["waitForGame"])) {
+                $waitingView = new WaitingView((int) $_GET["waitForGame"]);
+                echo $waitingView->invoke($this->session);
+            } else {
+                $lobbyView = new LobbyView();
+                echo $lobbyView->invoke($this->session);
+            }
         } else {
             $loginView = new LoginView();
             echo $loginView->invoke($this->session);

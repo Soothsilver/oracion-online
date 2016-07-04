@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/dataSources.local.xml
+.idea/workspace.xml
+vendor/doctrine/common/lib/vendor/
+vendor/doctrine/dbal/lib/vendor/
+vendor/doctrine/orm/docs/en/_theme/
+vendor/doctrine/orm/lib/vendor/

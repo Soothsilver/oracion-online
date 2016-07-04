@@ -4,7 +4,7 @@ use OracionOnline\FrontController;
 use OracionOnline\Session;
 
 $session = Session::Construct();
-sdagfdfsgdfgd
+
 $controller = new FrontController($session);
 $controller->invoke();
 

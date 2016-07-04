@@ -1,5 +1,6 @@
 <?php
 namespace OracionOnline;
+use OracionOnline\Models\Game;
 use OracionOnline\Models\User;
 
 class AjaxResponder
@@ -16,6 +17,29 @@ class AjaxResponder
             return "false";
         }
         switch($action) {
+            case "cancelGameAsCreator":
+                return "false";
+            case "listGames":
+                $gamesRepository = Doctrine::getEntityManager()->getRepository(Doctrine::GAME);
+                /**
+                 * @var $games Game[]
+                 */
+                $games = $gamesRepository->findAll();
+                $targetArray = [];
+                foreach($games as $game) {
+                    $targetArray[] = [
+                        "id" => $game->id,
+                        "firstPlayer" => $game->firstPlayer->email,
+                        "secondPlayer" => ($game->secondPlayer != null ? $game->secondPlayer->email : null),
+                        "status" => $game->status
+                    ];
+                }
+                return json_encode($targetArray);
+            case "createGame":
+                $game = new Game();
+                $game->firstPlayer = $this->session->getUser();
+                Doctrine::persistAndFlush($game);
+                return json_encode(["id" => $game->id]);
             case "changeQueueState":
 
                 $target = isset($data["targetState"]) ? $data["targetState"] : "false";
@@ -31,8 +55,7 @@ class AjaxResponder
                 $this->session->logout();
                 return "success";
             case "getStatistics":
-                /** @var User $user */
-                $user = Doctrine::getEntityManager()->find(Doctrine::USER, $this->session->id);
+                $user = $this->session->getUser();
                 $dql = Doctrine::getEntityManager()->createQuery(
                     'SELECT COUNT(u.id) FROM \OracionOnline\Models\User u WHERE u.lastHeartbeat > :date');
                 $dql->setParameters([
@@ -46,14 +69,11 @@ class AjaxResponder
                 ]);
             case "heartbeat":
                 $this->session->lastHeartbeat = new \DateTime();
-                /** @var User $user */
-                $user = Doctrine::getEntityManager()->find(Doctrine::USER, $this->session->id);
+                $user = $this->session->getUser();
                 $user->lastHeartbeat = new \DateTime();
                 Doctrine::getEntityManager()->persist($user);
                 Doctrine::getEntityManager()->flush($user);
-                return json_encode([
-                   "queued" => $user->queued
-                ]);
+                return "success";
         }
         return "false";
     }

@@ -10,6 +10,8 @@ use Doctrine\ORM\Tools\Setup;
 class Doctrine
 {
     const USER = "\\OracionOnline\\Models\\User";
+    const MOVE = "\\OracionOnline\\Models\\Move";
+    const GAME = "\\OracionOnline\\Models\\Game";
     /**
      * @var EntityManager
      */

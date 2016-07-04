@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oracion Online</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/js/fm.validator.jquery.js"></script>
+    <script src="/js/waiting.js"></script>
+</head>
+<body>
+<div class="screen">
+        <div class="logincaption">
+            Čekání na začátek hry
+        </div>
+        <div class="logintext">
+            Založili jste hru s identifikačním číslem <b>[[ID]]</b>. Váš e-mail je <b>[[EMAIL]]</b>. Prosím čekejte, než se k vaší hře připojí další hráč.
+        </div>
+        <hr>
+    <div class="logintext">
+        <button id="buttonCancel" data-id="[[ID]]" onclick="requestReturnToLobby();">Zrušit hru a vrátit se do hlavního menu</button>
+    </div>
+    </div>
+</body>
+</html>
