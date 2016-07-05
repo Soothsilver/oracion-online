@@ -7,5 +7,6 @@ namespace OracionOnline;
  */
 class SharedConstants
 {
-    const MOVE_DECK_NAME = "deck";
+    const MOVE_DECK_NAME = "load deck";
+    const MOVE_RANDOM_SEED = "random seed";
 }

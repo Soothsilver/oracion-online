@@ -1,7 +1,31 @@
 $(document).ready(function() {
- 
+  setInterval(function () {
+    requestHasSomebodyJoined();
+  }, 5000);
 });
-
+var requestHasSomebodyJoined = function () {
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    data: {
+      "ajaxAction" : "hasSomebodyJoined",
+      "id" : $("#buttonCancel").attr("data-id")
+    },
+    success: function(msg) {
+      if (msg.success) {
+        if (msg.joined) {
+          console.log("Game joined");
+          window.location.href = "?game=" + $("#buttonCancel").attr("data-id");
+        } else {
+          console.log("Game not joined yet.");
+          console.log(msg);
+        }
+      } else {
+        console.log("Game not joined yet - failure.");
+      }
+    }
+  });
+};
 var requestReturnToLobby = function () {
   $("#buttonCancel").text("Ruším hru...");
   $.ajax({

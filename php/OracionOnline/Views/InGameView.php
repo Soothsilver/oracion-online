@@ -5,15 +5,19 @@ use OracionOnline\Session;
 class InGameView implements IView
 {
     private $id;
+    private $deck;
 
-    public function __construct(int $id)
+    public function __construct(int $id, string $deck = null)
     {
         $this->id = $id;
+        $this->deck = $deck;
     }
 
     public function invoke(Session $session) : string
     {
         $html = file_get_contents("templates/Ingame.html");
+        $html = str_replace("[[ID]]", $this->id, $html);
+        $html = str_replace("[[DECK]]", $this->deck, $html);
         return $html;
     }
 }

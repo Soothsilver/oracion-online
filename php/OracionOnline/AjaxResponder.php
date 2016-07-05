@@ -1,6 +1,8 @@
 <?php
 namespace OracionOnline;
+use Doctrine\Common\Collections\Criteria;
 use OracionOnline\Models\Game;
+use OracionOnline\Models\Move;
 use OracionOnline\Models\User;
 
 class AjaxResponder
@@ -11,14 +13,116 @@ class AjaxResponder
         $this->session = $session;
     }
 
+    /**
+     * @param string $action
+     * @param array $data
+     * @return string
+     */
     public function invoke(string $action, array $data) : string
     {
         if (!$this->session->isLoggedIn()) {
             return "false";
         }
         switch($action) {
+            case "move":
+                if (!isset($data["gameId"])) {
+                    return false;
+                }
+                if (!isset($data["moveType"])) {
+                return false;
+                }
+                if (!isset($data["moveArgument"])) {
+                    return false;
+                }
+                $move = new Move();
+                /**
+                 * @var $game Game
+                 */
+                $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $data["gameId"]);
+                if ($game->firstPlayer->id != $this->session->getUser()->id &&
+                  $game->secondPlayer->id != $this->session->getUser()->id) {
+                    return false;
+                }
+                $move->game = $game;
+                $move->moveType = $data["moveType"];
+                $move->player = $this->session->getUser();
+                $move->moveArgument = $data["moveArgument"];
+                Doctrine::persistAndFlush($move);
+                return "success";
+            case "getMoves":
+                if (!isset($data["gameId"])) {
+                    return false;
+                }
+                if (!isset($data["lastMoveId"])) {
+                    return false;
+                }
+                $gameId = $data["gameId"];
+                $lastMoveId = $data["lastMoveId"];
+                $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $gameId);
+                $moves = Doctrine::getEntityManager()->getRepository(Doctrine::MOVE);
+                $criteria = Criteria::create()
+                  ->where(Criteria::expr()->eq("game", $game))
+                  ->andWhere(Criteria::expr()->gt("id", $lastMoveId))
+                  ->orderBy(array("id" => Criteria::ASC))                  
+                  ->setFirstResult(0);
+                $newMoves = $moves->matching($criteria);
+                $arrayOutput = array();
+                foreach ($newMoves as $key => $value) {
+                 $arrayOutput[] = [
+                     "id" => $value->id,
+                     "moveType" => $value->moveType,
+                     "moveArgument" => json_decode($value->moveArgument),
+                     "yours" => $value->player->id == $this->session->getUser()->id
+                 ];
+                }
+                return json_encode($arrayOutput);
             case "joinGame":
-                return "false";
+                if (!isset($data["id"])) {
+                    return json_encode(["success" => false, "reason" => "Data ID not set." ]);
+                }
+                if (!isset($data["deck"])) {
+                    return json_encode(["success" => false, "reason" => "Deck not set." ]);
+                }
+                $gameId = $data["id"];
+                $deckname = $data["deck"];
+                try {
+                    Doctrine::getEntityManager()->transactional(function () use ($gameId, $deckname) {
+                        /**
+                         * @var $game Game
+                         */
+                        $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $gameId);
+                        if ($game->secondPlayer != null) {
+                            throw new \Exception("V této hře jsou již dva hráči.");
+                        } else if ($game->status == Game::STATUS_TERMINATED) {
+                            throw new \Exception("Tato hra již skončila.");
+                        }
+                        $game->secondPlayer = $this->session->getUser();
+                        $game->status = Game::STATUS_PLAYING;
+                        $move = new Move();
+                        $move->game = $game;
+                        $move->moveArgument = $deckname;
+                        $move->player = $this->session->getUser();
+                        $move->moveType = SharedConstants::MOVE_DECK_NAME;
+                        Doctrine::getEntityManager()->persist($move);
+                    });
+                    return json_encode(["success" => true]);
+                } catch (\Exception $ex) {
+                    return json_encode(["success" => false, "reason" => $ex->getMessage()]);
+                }
+            case "hasSomebodyJoined":
+                if (!isset($data["id"])) {
+                    return json_encode(["success" => false, "reason" => "Data ID not set." ]);
+                }
+                $gameId = $data["id"];
+                /**
+                 * @var $game Game
+                 */
+                $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $gameId);
+                if ($game->secondPlayer == null) {
+                    return json_encode(["success" => true, "joined" => false]);
+                } else {
+                    return json_encode(["success" => true, "joined" => true]);
+                }
             case "cancelGameAsCreator":
                 if (!isset($data["id"])) {
                     return json_encode(["success" => false, "reason" => "Data ID not set." ]);
@@ -57,9 +161,26 @@ class AjaxResponder
                 }
                 return json_encode($targetArray);
             case "createGame":
+                if (!isset($data["deck"])) {
+                    return false;
+                }
+                $deckname = $data["deck"];
                 $game = new Game();
                 $game->firstPlayer = $this->session->getUser();
-                Doctrine::persistAndFlush($game);
+                $moveDeck = new Move();
+                $moveDeck->game = $game;
+                $moveDeck->moveType = SharedConstants::MOVE_DECK_NAME;
+                $moveDeck->moveArgument = $deckname;
+                $moveDeck->player = $this->session->getUser();
+                $moveRandom = new Move();
+                $moveRandom->game = $game;
+                $moveRandom->moveType = SharedConstants::MOVE_RANDOM_SEED;
+                $moveRandom->moveArgument = rand(1, 200000);
+                $moveRandom->player = $this->session->getUser();
+                Doctrine::getEntityManager()->persist($game);
+                Doctrine::getEntityManager()->persist($moveDeck);
+                Doctrine::getEntityManager()->persist($moveRandom);
+                Doctrine::getEntityManager()->flush();
                 return json_encode(["id" => $game->id]);
             case "changeQueueState":
 

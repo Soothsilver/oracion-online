@@ -36,7 +36,11 @@ class FrontController
                 $waitingView = new WaitingView((int) $_GET["waitForGame"]);
                 echo $waitingView->invoke($this->session);
             } else if (isset($_GET["game"])) {
-                $inGameView = new InGameView((int) $_GET["game"]);
+                if (isset($_GET["deck"])) {
+                    $inGameView = new InGameView((int) $_GET["game"], $_GET["deck"]);
+                } else {
+                    $inGameView = new InGameView((int) $_GET["game"]);
+                }
                 echo $inGameView->invoke($this->session);
             } else {
                 $lobbyView = new LobbyView();

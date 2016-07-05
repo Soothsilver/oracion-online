@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<cards xmlns="http://hudecekpetr.cz/oracion"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="oracion.xsd">
+
+  <card name="Lesan" color="Leaf" image="Card_1_Lesan" god="true">
+    <creature dice="2d20">
+
+    </creature>
+  </card>
+  <card name="Ohňan" color="Fire" image="Card_2_Ohňan">
+    <creature dice="2d20"/>
+  </card>
+</cards>

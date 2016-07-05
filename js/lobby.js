@@ -47,6 +47,9 @@ var requestGamesList = function () {
         }
     });
 };
+var requestPlayAI = function () {
+    window.location.href = "?game=AI&deck=" + $("#deck").val();
+};
 var requestJoinGame = function () {
     var selectedOption = $("#games").val();
     if (!selectedOption) {
@@ -65,10 +68,10 @@ var requestJoinGame = function () {
         success: function(msg) {
             console.log("Game joined.");
             console.log(msg);
-            if (msg) {
+            if (msg.success) {
                 window.location.href = "?game=" + selectedOption;
             } else {
-                $("#buttonJoinGame").val("Ke hře se nepodařilo připojit. Zkusit znovu?");
+                $("#buttonJoinGame").val("Ke hře se nepodařilo připojit (" + msg.reason + "). Zkusit znovu?");
             }
         },
         error: function (msg) {

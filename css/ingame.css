@@ -1,13 +1,62 @@
-.ingamescreen {
-    margin-top: 50px;
+html {
+    background: url(../img/alamos.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#showoff {
+    display: none;
+    position: absolute;
+    width: 241px;
+    height: 381px;
+    top: 50px;
+    z-index: 50;
+    right: 10px;
+    border: 1px solid black;
+}
+#fightButton {
+    position: absolute;
+    left: 520px;
+    top: 280px;
+}
+.disabledFightButton {
+    opacity: 0.5;
+}
+
+.ingamefull {
     margin-left: auto;
     margin-right: auto;
+    width: 1550px;
+    opacity: 0.99;
+}
+.ingamescreen {
+    margin-top: 50px;
     width: 1200px;
     height: 800px;
     border-radius: 5px;
     background-color: #dcefff;
-    border: 1px solid black;
+    border: 6px outset gray;
     position: relative;
+    float: left;
+}
+.logscreen {
+    width: 280px;
+    height: 780px;
+    background-color: #dcefff;
+    border: 6px outset gray;
+    margin-top: 50px;
+    border-radius: 5px;
+    position: relative;
+    margin-left: 10px;
+    float: left;
+    padding: 10px;
+    overflow: scroll;
+}
+.card {
+    position: absolute;
+    left: 0px;
+    top:0px;
 }
 .zone {
     border: #cefdf3 1px solid;
@@ -71,8 +120,8 @@
     top: 45px;
 }
 #middlebar {
-    left: 0px;
-    width: 1200px;
+    left:50px;
+    width: 320px;
     height: 40px;
     top: 280px;
     background-color: #f3af95;
@@ -89,7 +138,6 @@
     border: black 1px solid;
     border-radius: 10px;
     padding: 10px;
-
 }
 /* <div id="yourHand" class="zone">Tvoje ruka</div>
     <div id="enemyHand" class="zone">Soupeřova ruka</div>
