@@ -8,6 +8,14 @@ class DiscardPile {
     }
     /** @type Card */
     discard(card) {
+        if (card instanceof Creature) {
+            for (var i = 0; i < card.attachedCards.length; i++) {
+                var tool = card.attachedCards[i];
+                this.add(tool);
+                tool.element.css("z-index", session.getHighZIndex());
+                tool.moveToRectangle(this.getRectangle());
+            }
+        }
         this.add(card);
         card.element.css("z-index", session.getHighZIndex());
         card.moveToRectangle(this.getRectangle());

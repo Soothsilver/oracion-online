@@ -9,6 +9,7 @@
       "To je hvězdná brána, ta vcucne všecko, takže Lesan má dobrou náladu."</flavor>
     <rules>Posílení +1 (Příští kolo bude mít tvoje bytost +1 šestistěnnou kostku.)</rules>
     <creature ex="false" god="true" d20="2" d10="0" d6="0" dPlus="0" />
+    <ability id="Empowerment" value="1" />
   </card>
   <card name="Ohňan" color="Fire" image="Card_2_Ohňan" evil="false" rarity="Rare" watermark="None">
     <flavor>"Teď zapálím tento les a hned po tom další a další a další! Budu nejohnivější, nejohňanovitější, budu mástr. A pak budu vládnout světu a nic mě nemůže zastavit! Ani můj bratr Lesan!"  -- Ohňan</flavor>
@@ -25,6 +26,7 @@
     <flavor>Blesky se rozdělují na ty, které zůstanou na obloze a na ty, které dopadnou na zem. Ty se dále rozdělují na blesky, které trefí strom a blesky, které trefí vás. Samozřejmě, jsou tu i blesky, které hází Elektřinan pro zábavu. Ty většinou trefí vás.</flavor>
     <rules>Zuřivost 10 (Házej desetistěnnou kostkou, dokud ti nepadne 1 nebo 2. Útočná síla Elektřinana je součet bodů na všech hozených kostkách.)</rules>
     <creature ex="false" god="true" d20="0" d10="0" d6="0" dPlus="5" />
+    <ability id="Ferocity" value="10" />
   </card>
   <card name="Zemětřesan" color="Leaf" image="Card_5_Zemětřesan" evil="false" rarity="Rare" watermark="None">
     <flavor>Jak přežít útok Zemětřesana:
@@ -38,11 +40,6 @@
     <flavor>Nikdo neví, jak tenhleten vypadá.</flavor>
     <rules></rules>
     <creature ex="true" god="true" d20="3" d10="0" d6="0" dPlus="0" />
-  </card>
-  <card name="Výpravčí Blažej" color="Psychic" image="Card_7_Výpravčí Blažej" evil="false" rarity="Rare" watermark="None">
-    <flavor>Výpravčí Blažej je ředitel Celosvětového Centra pro Controlu Počasí (CCCP), jak to tvrdí Ideální skaut 3. Blažej umí přivolat bouřku, zastavit déšť, snížit hladinu řeky nebo třeba zasněžit Myšáka.</flavor>
-    <rules>Spojení 3 (Za každou psychickou bytost, kterou ukážeš soupeři z ruky, má Výpravčí Blažej bonus +3 šestistěnné kostky.)</rules>
-    <creature ex="false" god="true" d20="0" d10="0" d6="3" dPlus="0" />
   </card>
   <card name="Les" color="Leaf" image="Card_8_Les" evil="false" rarity="Common" watermark="Nature">
     <flavor>Bylo to právě v Lese, uprostřed přírody, kde byli založeni Rytíři Naděje památnou větou: "Světlo vítězí nad tmou. Naděje vítězí nad zoufalstvím. A proto i my zvítězíme, v souladu s přírodou." </flavor>
@@ -76,11 +73,13 @@
       Všichni byli úplně vedle.</flavor>
     <rules>Parník vydrží ve hře jen jedno kolo.</rules>
     <creature ex="false" god="false" d20="1" d10="1" d6="1" dPlus="0" />
+    <ability id="SingleTurn" />
   </card>
   <card name="Letadlová loď" color="Water" image="Card_13_Letadlová loď" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Letadlová loď je fakt hustá. Jen se podívejte na obrázek. A taky se podívejte na to moře kolem - fakt hustý. A pak se podívejte, jak je tahle karta silná. Hustě, co?</flavor>
     <rules>Zuřivost 6 (Házej 6-stěnnou kostkou, dokud ti nepadne 1. Útočná síla je součet bodů na hozených kostkách.)</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="0" dPlus="1" />
+    <ability id="Ferocity" value="6" />
   </card>
   <card name="Křižník" color="Water" image="Card_14_Křižník" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Křižník je velká válečná loď schopná současně monitorovat a útočit na více různých cílů. Křižníky obecně považovány za nejmenší lodě schopné provádět nezávislé vojenské operace.
@@ -94,12 +93,6 @@
     <rules></rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
   </card>
-  <card name="Kapsář" color="Fire" image="Card_16_Kapsář" evil="true" rarity="Common" watermark="None">
-    <flavor>Dávejte si bacha na svoje peněženky.</flavor>
-    <rules>
-      Za každou hozenou šestku si lízni kartu.</rules>
-    <creature ex="false" god="false" d20="0" d10="0" d6="3" dPlus="0" />
-  </card>
   <card name="Skřet" color="Leaf" image="Card_17_Skřet" evil="true" rarity="Common" watermark="Junaria">
     <flavor>Skřeti jsou jedni z nejslabších bojovníků Zla. Určitě pro vás nebude žádný problém je porazit.</flavor>
     <rules></rules>
@@ -109,6 +102,7 @@
     <flavor>Skřeti jsou jedni z nejslabších bojovníků zla. Ovšem jejich kouzelníci už tak slabí nejsou.</flavor>
     <rules>Kouzlo -- Oživení (Pokud vyhraješ, počet tvých vyřazených bytostí se sníží o 1.)</rules>
     <creature ex="false" god="false" d20="0" d10="2" d6="0" dPlus="0" />
+    <ability id="VictoryHeals" isMagic="true" />
   </card>
   <card name="Král skřetů" color="Leaf" image="Card_19_Král skřetů" evil="true" rarity="Rare" watermark="Junaria">
     <flavor>"Já být BOSS" -- Král skřetů</flavor>
@@ -126,11 +120,13 @@
       -- Wikipedie</flavor>
     <rules>Soupeřova Kouzla nefungují.</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="0" dPlus="12" />
+    <ability id="MagicSuppression" />
   </card>
   <card name="Přerostlý pavouk" color="Leaf" image="Card_22_Přerostlý pavouk" evil="false" rarity="Uncommon" watermark="Junaria">
     <flavor>Je velký. Fakt velký. Ani byste nechtěli uvěřit, jak je velký. Když si vynásobíte "obří", "fakt obrovský", a "monstrózní", tak zjistíte, jak přibližně Přerostlý pavouk vypadá.</flavor>
     <rules>Kouzlo -- Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="0" dPlus="0" />
+    <ability id="PrerostlyPavouk" isMagic="true" />
   </card>
   <card name="Rozkopu!" color="Action" image="Card_23_Rozkopu!" evil="false" rarity="Rare" watermark="None">
     <flavor>Rozkopat věci je snadné.
@@ -138,63 +134,75 @@
 
       Proto je dobré radši do věcí nekopat. Tuhle kartu používejte s rozmyslem.</flavor>
     <rules>Síla soupeřovy bytosti se mění na 10. Žádné jeho bonusy či kostky nefungují.</rules>
-    <action />
+    <action>
+      <addToEnemy>
+        <ability id="Rozkopu"></ability>
+      </addToEnemy>
+    </action>
   </card>
+  <!-- Tady jsem skoncil -->
   <card name="Zabít a sníst!" color="Action" image="Card_24_Zabít a sníst!" evil="false" rarity="Common" watermark="None">
     <flavor>Tohle dost často říká Hedík.
       To je takový to malý vlče, co je pořád modrý a chtělo by někoho sníst.
       -- Profesorovy poznatky</flavor>
     <rules>Pokud vyhraješ tento souboj, lízni si 4 karty.</rules>
-    <action />
+    <action>
+      <addToSelf>
+        <ability id="ZabitASnist"/>
+      </addToSelf>
+    </action>
   </card>
   <card name="Líznout (ale jen málo) !" color="Action" image="Card_25_Líznout (ale jen málo) !" evil="false" rarity="Uncommon" watermark="None">
     <flavor>"Karta Líznout! mi vyhrála turnaj na táboře. Je dost silná," řekl Tenisák.
       "Aha," zamyslel se Profesor, "tak to já ji zakážu a místo toho vytvořet tuhle slabou kartu. Bude se jmenovat Líznout (ale jen málo) !"</flavor>
     <rules>Lízni si dvě karty.</rules>
-    <action />
+    <action spellability="Liznout" />
   </card>
   <card name="Ohnivá koule" color="Action" image="Card_26_Ohnivá koule" evil="false" rarity="Uncommon" watermark="Junaria">
     <flavor>"A přijde den, kdy ohnivé koule budou padat na zelené lesy a nebe bude zbarvené do červena. Pak musíme vyrazit do boje."
       -- Junarijské proroctví</flavor>
     <rules>Kouzlo -- Počítej, jako by na jedné ze soupeřových nejsilnějších kostek padlo 0,</rules>
-    <action />
+    <action>
+      <addToSelf>
+        <ability id="EnemyBestIsZero" isMagic="true" />
+      </addToSelf>
+    </action>
   </card>
   <card name="Listová břitva" color="Action" image="Card_27_Listová břitva" evil="false" rarity="Common" watermark="Junaria">
     <flavor>Listovou břitvu ovládá například Pokémon Bulbasaur. Kdybyste to nevěděli, tak Bulbasaur se vyvíjí v Ivysaura, ten ve Venosaura a to je taký velký dinosaur. Ne, není to Pikachu.</flavor>
     <rules>Kouzlo -- lízni si kartu a ukaž ji soupeři. Pokud je to bytost, máš o 2 šestistěnné kostky navíc.</rules>
-    <action />
-  </card>
-  <card name="Tornádo" color="Action" image="Card_28_Tornádo" evil="true" rarity="Common" watermark="Junaria">
-    <flavor>Tornádo je jedním z nejsilnějších kouzel černokněžníků Zla. Prorazí domy, zboří hradby, zničí paláce. Pokud uvidíte černokněžníka sesílat tornádo, zdrhejte.
-    </flavor>
-    <rules>Soupeřovy Nástroje nefungují.</rules>
-    <action />
+    <action spellability="ListovaBritva"></action>
   </card>
   <card name="Tsunami" color="Water" image="Card_29_Tsunami" evil="true" rarity="Uncommon" watermark="Nature">
     <flavor>Zajímavé je, že i v dnešní době je velmi těžké najít na internetu skutečné obrázky tsunami.</flavor>
     <rules>Posílení +6 (Příští kolo bude mít tvoje bytost +6 šestistěných kostek.)</rules>
     <creature ex="true" god="false" d20="2" d10="0" d6="0" dPlus="0" />
+    <ability id="Empowerment" value="6" />
   </card>
   <card name="Stromový bojovník" color="Leaf" image="Card_30_Stromový bojovník" evil="false" rarity="Common" watermark="Junaria">
     <flavor>"A až přijde den, kdy ohnivé koule budou padat na zelené lesy, tak stromy samotné povstanou, aby bojovaly proti Zlu."
       -- Junarijské proroctví</flavor>
     <rules>Proti zlým bytostem má bonus +2 šestistěnné kostky.</rules>
     <creature ex="false" god="false" d20="1" d10="1" d6="0" dPlus="0" />
+    <ability id="AgainstEvilD6" value="2" />
   </card>
   <card name="Černokněžník" color="Psychic" image="Card_31_Černokněžník" evil="true" rarity="Rare" watermark="Junaria">
     <flavor>Černokněžník, narozdíl od kouzelníků Naděje, nepoužívá bílou hůl k sesílání kouzel, ale vysílá blesky rovnou ze svých rukou.</flavor>
     <rules>Kouzlo -- Pokud prohraje, Černokněžník se nepočítá jako mrtvý.</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="4" dPlus="0" />
+    <ability id="Undying" isMagic="true" />
   </card>
   <card name="Kouzelník Naděje" color="Psychic" image="Card_32_Kouzelník Naděje" evil="false" rarity="Rare" watermark="Junaria">
     <flavor>Nosí bílý plášť a bílou svítící hůl, se kterou sesílá mocná kouzla. Pokud nějakého potkáte, on vás určitě ochrání.</flavor>
     <rules>Kouzlo -- Počítej, jako by na jedné ze soupeřových nejsilnějších kostek padlo 0,</rules>
     <creature ex="false" god="false" d20="0" d10="2" d6="0" dPlus="0" />
+    <ability id="EnemyBestIsZero" isMagic="true" />
   </card>
   <card name="Víla" color="Water" image="Card_33_Víla" evil="false" rarity="Common" watermark="Junaria">
     <flavor>Až přijde ten den, kdy ohnivé koule budou padat na zelené lesy, tak modré víly vyjdou z jezer, aby chránily své sestry v lese. </flavor>
     <rules>Pokud umře, Víla se nepočítá jako mrtvá.</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="3" dPlus="0" />
+    <ability id="Undying" />
   </card>
   <card name="Démon" color="Fire" image="Card_34_Démon" evil="true" rarity="Rare" watermark="Junaria">
     <flavor>Démoni jsou vůdci armád Zla.</flavor>
@@ -228,6 +236,7 @@
     <flavor>Státní vlajka je tvořena modrým klínem zasazeným do poloviny šířky vlajky. Červená dole, bílá nahoře. Pokud byste měli pověsit vlajka zhora dolů, pamatujte, že červená je napravo (tam, kde by logicky neměla být).</flavor>
     <rules>Státní vlajku smí nosit jen vodní a psychické bytosti.</rules>
     <tool d20="0" d10="0" d6="2" dPlus="0" />
+    <ability id="OnlyWaterAndPsychic" />
   </card>
   <card name="KPZ" color="Tool" image="Card_40_KPZ" evil="false" rarity="Uncommon" watermark="Lilie">
     <flavor>Na schůzkách budete v KPZ potřebovat:
@@ -247,16 +256,19 @@
       3. Najdi si další oběť.</flavor>
     <rules>Proti zlým a temným bytostem dává Meč bonus + 6 (místo + 3).</rules>
     <tool d20="0" d10="0" d6="0" dPlus="3" />
+    <ability id="AgainstEvilPlus3" />
   </card>
   <card name="Sekera" color="Tool" image="Card_43_Sekera" evil="false" rarity="Common" watermark="None">
     <flavor>Vlajka byla jedním z nejpoužívanějších nástrojů, ale fungovala pouze s vodními a listovými bytostmi. Proto jsem vytvořil Sekeru, která děláto samé pro listové a ohnivé bytosti.      -- Profesor</flavor>
     <rules>Sekeru smí používat jen listové nebo ohnivé bytosti.</rules>
     <tool d20="0" d10="0" d6="2" dPlus="0" />
+    <ability id="OnlyLeafAndFire" />
   </card>
   <card name="Magický štít" color="Tool" image="Card_44_Magický štít" evil="false" rarity="Common" watermark="Junaria">
     <flavor>Zlá kouzla ničila Junarii. Tornáda, tsunami a výbuchy sopek pustošili zem. Až do té doby, kdy kouzelníci vytvořili Magický štít, který nás konečně dokázal ochránit.</flavor>
     <rules>Soupeřova Kouzla nefungují.</rules>
     <tool d20="0" d10="0" d6="0" dPlus="2" />
+    <ability id="MagicSuppression" />
   </card>
   <card name="Lupič" color="Fire" image="Card_45_Lupič" evil="true" rarity="Uncommon" watermark="None">
     <flavor>
@@ -264,38 +276,38 @@
       To, co je na obrázku, se nedělá.</flavor>
     <rules>Pokud vyhraješ souboj, lízni si 2 karty.</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="Lupic" />
   </card>
   <card name="Sv. Jiří" color="Fire" image="Card_46_Sv. Jiří" evil="false" rarity="Rare" watermark="Lilie">
     <flavor>Svátek Sv. Jiří se slaví 24. dubna. Tento den se také nazývá "Den v krojích," protože spousty skautů po republice jde ten den do práce a do školy ve skautských krojích.</flavor>
     <rules>Sv. Jiří vydrží ve hře jen jedno kolo.</rules>
     <creature ex="false" god="false" d20="2" d10="0" d6="0" dPlus="0" />
-  </card>
-  <card name="Sv. František" color="Psychic" image="Card_47_Sv. František" evil="false" rarity="Rare" watermark="Lilie">
-    <flavor>
-      Sv. František prý dokázal mluvit se zvířaty a kázal jim o míru a lásce.</flavor>
-    <rules>Pokud máš na ruce karty s alespoň 3 různými symboly vpravo nahoře, Sv. František hází dvacetistěnnými kostkami místo desetistěnných.</rules>
-    <creature ex="false" god="true" d20="0" d10="3" d6="0" dPlus="0" />
+    <ability id="SingleTurn" />
   </card>
   <card name="Vlčácký slib" color="Fire" image="Card_48_Vlčácký slib" evil="false" rarity="Common" watermark="Lilie">
     <flavor>* Slibuji, že se vynasnažím být poslušným vlčetem své smečky, se kterou budu hledat nejvyšší Pravdu a Lásku.
       * Že každý den vykonám dobrý skutek.</flavor>
     <rules>Soupeřova Kouzla nefungují.</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="0" dPlus="15" />
+    <ability id="MagicSuppression" />
   </card>
   <card name="Zlý duch" color="Darkness" image="Card_49_Zlý duch" evil="true" rarity="Common" watermark="Junaria">
     <flavor>Zlého ducha téměř nikdy neuvidíte, protože je vždy obklopen černou, neprůhlednou mlhou. Ale naslouchejte pozorně všemu kolem vás - možná ducha uslyšíte!</flavor>
     <rules>Soupeřova Kouzla nefungují.</rules>
     <creature ex="false" god="false" d20="1" d10="1" d6="0" dPlus="0" />
+    <ability id="MagicSuppression" />
   </card>
   <card name="Dobrý duch" color="Psychic" image="Card_50_Dobrý duch" evil="false" rarity="Common" watermark="Junaria">
     <flavor>V podzemních chodbách pod velkými městy, jako je Junaria City nebo Valdorf, žijí tito duchové, kteří vám vždy rádi pomohou.</flavor>
     <rules>Proti zlým a temným bytostem má Dobrý duch o 3 šestistěnné kostky navíc.</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="AgainstEvilD6" value="3" />
   </card>
   <card name="Satelit" color="Darkness" image="Card_51_Satelit" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Nad kontinentem Junaria ještě žádný satelit neletí, ale vědci z Valdorfu už jsou prý blízko vypuštění první družice.</flavor>
     <rules>Satelit vydrží ve hře jen jedno kolo.</rules>
     <creature ex="false" god="false" d20="2" d10="0" d6="0" dPlus="0" />
+    <ability id="SingleTurn" />
   </card>
   <card name="Opičák Joe, vůdce 6.dívčího oddílu Lyra" color="Fire" image="Card_52_Opičák Joe, vůdce 6.dívčího oddílu Lyra" evil="false" rarity="Rare" watermark="Lilie">
     <flavor>"Jsi skaut - tak improvizuj."
@@ -303,6 +315,7 @@
       "Nenávist." -- Vladimírova oblíbená hláška</flavor>
     <rules>Zuřivost 6 (Házej 6-stěnnou kostkou, dokud ti nepadne 1. Útočná síla je součet bodů na hozených kostkách.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="0" dPlus="0" />
+    <ability id="Ferocity" value="6" />
   </card>
   <card name="Ronaldo, vůdce oddílu" color="Psychic" image="Card_53_Ronaldo, vůdce oddílu" evil="false" rarity="Rare" watermark="Lilie">
     <flavor>"Jdi do boje vesele, neboť mrtví, kteří se nesmějí, jsou oškliví." "Život je plný zklamání a je to celkem v pořádku." "Maso chutná nejlíp po hladu a postel je nejměkčí po těžké cestě." (Jack London)
@@ -321,6 +334,7 @@
     <flavor>Profesor vymyslel karetní hru Oracion. Námět vzal z filmu Pokémon. Jo, jo, Profesor se rád dívá na Pokémony.</flavor>
     <rules>Posílení +1 (Příští kolo bude mít tvoje bytost +1 šestistěnnou kostku.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="2" dPlus="0" />
+    <ability id="Empowerment" value="1" />
   </card>
   <card name="Ronny, bývalý vůdce oddílu" color="Psychic" image="Card_56_Ronny, bývalý vůdce oddílu" evil="false" rarity="Rare" watermark="Lilie">
     <flavor>Ronny byl dlouhou dobu vůdcem našeho oddílu.</flavor>
@@ -331,6 +345,7 @@
     <flavor>"Buď jsem vyšokovanej já, nebo všichni kolik mě." -- Myšák</flavor>
     <rules>Posílení +2 (Příští kolo bude mít tvoje bytost o 2 šestistěnné kostky více.)</rules>
     <creature ex="false" god="false" d20="0" d10="0" d6="4" dPlus="0" />
+    <ability id="Empowerment" value="2" />
   </card>
   <card name="Vašek &quot;Vydrys&quot;" color="Water" image="Card_58_Vašek _Vydrys_" evil="false" rarity="Rare" watermark="Lilie">
     <flavor>"Jen dvě věci jsou slyšet až na konec vesmíru - Velký Třesk a Sedmička."
@@ -338,12 +353,14 @@
       -- Vaškova moudrost</flavor>
     <rules>Posílení +2 (Příští kolo bude mít tvoje bytost +2 šestistěnné kostky.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="Empowerment" value="2" />
   </card>
   <card name="Tenisák, podrádce družiny Svišťů" color="Leaf" image="Card_59_Tenisák, podrádce družiny Svišťů" evil="false" rarity="Common" watermark="Lilie">
     <flavor>"I pád na držku je pohyb dopředu," říká Michal Nebeský - Tenisák.
       "Tenisák je fakt hodnej kluk a je hodně chytrej," řekl skaut z našeho oddílu, který nechce být jmenován.</flavor>
     <rules>Posílení +1 (Příští kolo bude mít tvoje bytost o 1 šestistěnnou kostku navíc.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="Empowerment" value="1" />
   </card>
   <card name="Vyšokovanej" color="Tool" image="Card_60_Vyšokovanej" evil="false" rarity="Rare" watermark="None">
     <flavor>Zeptejte se Myšáka, co to znamená být "vyšokovanej." Já to nevím, ale myslím si, že být vyšokovanej je něco jako zmatený, šílený, unavený nebo tak něco.</flavor>
@@ -353,7 +370,7 @@
   <card name="Soptíkova superschopnost" color="Action" image="Card_61_Soptíkova superschopnost" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Na táboře v Pávkovně 2009 byla při závěrečném útoku (Zničení NEXU) Soptíkova schopnost užitečná. Uměl oživovat mrtvé!</flavor>
     <rules>Oživení (Počet tvých vyřazených bytostí se sníží o 1.)</rules>
-    <action />
+    <action spellability="Soptik" />
   </card>
   <card name="Most" color="Water" image="Card_62_Most" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Mosty jsou důležitá strategická místa. Pokud obsadíš most a udržíš ho, nepřátelské armády se přes něj nedostanou. Pamatuj na to při bojových hrách!</flavor>
@@ -366,6 +383,7 @@
       Ale vede spolu s Péťou družinu skautů, Medvědů, a proto je teď velký šéf.</flavor>
     <rules>Posílení +1 (Příští kolo bude mít tvoje bytost o šestistěnnou kostku více.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="Empowerment" value="1" />
   </card>
   <card name="Koupání" color="Water" image="Card_64_Koupání" evil="false" rarity="Uncommon" watermark="None">
     <flavor>Hygiena je na táboře velmi důležitá. Pokud si nebudeš mít ruce, můžeš skončit s chřípkou nebo nějakou nemocí, jako třeba Vašek na táboře Pávkovna v roce 2009.</flavor>
@@ -376,6 +394,7 @@
     <flavor>Oración, "hudba, která má moc uklidnit i tu největší zuřivost" je přehrávána věžmi na obrázku ve městě Alamos Town. Touto hudbou začíná každý oficiální turnaj v Oracionu.</flavor>
     <rules>Oración vydrží ve hře jen jedno kolo.</rules>
     <creature ex="false" god="false" d20="4" d10="0" d6="0" dPlus="0" />
+    <ability id="SingleTurn" />
   </card>
   <card name="Staň se skautem! (Les)" color="Leaf" image="Card_66_Staň se skautem! (Les)" evil="false" rarity="Rare" watermark="None">
     <flavor>Na našich schůzkách hrajeme netradiční hry venku i v klubovně. Nově i tuto karetní hru, říkáme jí Oracion. Jednu hrací kartičku jsi právě obržel. Jinak jsme fajn parta a na schůzkách, víkendových výletech a letním táboře se také učíme spoustu zajímavých věcí. Více informací najdeš na naší nástěnce u klubovny za řekou u fotbalového hřiště TJ Sokola.</flavor>
@@ -406,6 +425,7 @@
     <flavor>Banana?</flavor>
     <rules>Posílení +2 (Příští kolo bude mít tvoje bytost o 2 šestistěnné kostky více.)</rules>
     <creature ex="false" god="false" d20="1" d10="0" d6="1" dPlus="0" />
+    <ability id="Empowerment" value="2" />
   </card>
   <card name="Hlavní pás asteroidů" color="Darkness" image="Card_72_Hlavní pás asteroidů" evil="false" rarity="Common" watermark="Lilie">
     <flavor>Zde posledních třicet let žije profesor Zweitakt. Zde osnuje své plány. A ano, zde tak spí, jí a tráví veškerý svůj volný čas.</flavor>
@@ -421,6 +441,7 @@
     <flavor>Zde je text příběhu.</flavor>
     <rules>Tanky vydrží ve hře jen jedno kolo.</rules>
     <creature ex="false" god="false" d20="1" d10="2" d6="1" dPlus="0" />
+    <ability id="SingleTurn" />
   </card>
   <card name="Těžký tank" color="Metal" image="Card_75_Těžký tank" evil="false" rarity="Common" watermark="None">
     <flavor>"Vypadá to, že jedna prošla přímo skrz."

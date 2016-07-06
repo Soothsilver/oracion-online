@@ -121,8 +121,10 @@ var createCard = function (description) {
             if (description.god) {
                 card.god = true;
             }
-            if (description.ex) {
+            if (description.ex == "true") {
                 card.ex = true;
+            } else {
+                card.ex = false;
             }
             break;
         case "tool":
@@ -136,7 +138,7 @@ var createCard = function (description) {
             break;
     }
     card.inherentModifiers = description.inherentModifiers;
-    card.abilities = description.abilities;
+    card.inherentAbilities = description.abilities;
     card.evil = description.evil;
     return card;
 };

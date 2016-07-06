@@ -1,6 +1,11 @@
 $(document).ready(function() {
     loadCardlist(function () {
         session = new Session($("#id").val());
+        $(document).bind('keydown', 'ctrl+shift+s', function () {
+           for (var i = 0; i < session.enemy.cards.length; i++) {
+               session.enemy.cards[i].flip(true);
+           }
+        });
         if (session.gameId == "0") {
             incomingMove(new Move(0, true, MOVE_LOAD_DECK, $("#deck").val()));
             incomingMove(new Move(0, false, MOVE_LOAD_DECK, $("#deck").val()));

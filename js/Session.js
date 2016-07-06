@@ -16,10 +16,10 @@ var Session = function (gameId) {
     this.enemyWantsToGoToCombat = false;
     this.lastUniqueIdentifier = 0;
     this.cardsByUniqueIdentifier = {};
-    this.highIndex = 2;
+    this.highIndex = 401;
     this.gameover = false;
     this.phase = PHASE_BEGINNING;
-    this.lowIndex = -2;
+    this.lowIndex = 399;
     this.toBeSentQueue = [];
     this.sendingInProgress = false;
     this.hasBeenReceivedQueue = [];
@@ -88,6 +88,8 @@ Session.prototype.canWeMoveToMainPhase = function () {
           setMiddleBar("Hraj nástroje nebo akce, nebo klikni 'Do boje!'");
           $("#fightButton").removeClass("disabledFightButton");
           $("#fightButton").attr("disabled", false);
+          this.iWantToGoToCombat = false;
+          this.enemyWantsToGoToCombat = false;
           this.phase = PHASE_MAIN;
 
       }
@@ -98,11 +100,12 @@ Session.prototype.canWeMoveToMainPhase = function () {
  * @param {Card} card
  */
 Session.prototype.playCard = function (player, card) {
+    player.hand.cards.remove(card);
+    player.hand.reorganize(false);
+    
     if (player.activeCreature == null) {
         player.activeCreature = card;
         player.activeCreature.flip(false);
-        player.hand.cards.remove(card);
-        player.hand.reorganize(false);
         if (player.you) {
             log ("Zahrál jsi bytost " + card.toLink() + ".");
         } else if (player) {
@@ -115,6 +118,14 @@ Session.prototype.playCard = function (player, card) {
             this.sendMove(new Move(null, true, MOVE_PLAY_CARD, { uniqueIdentifier: card.uniqueIdentifier }));
         }
         this.checkQueue();
+    } else if (card instanceof Tool) {
+        card.attachSelfTo(player.activeCreature);
+        card.flip(true);
+        log(player.getName() + " přiložil nástroj " + card.toLink() + " ke své bytosti v aréně.");
+    } else if (card instanceof Action) {
+        card.flip(true);
+        player.discardPile.discard(card);
+        log(player.getName()+ " použil akci " + card.toLink() + ".");
     }
 };
 /**
@@ -288,6 +299,9 @@ Session.prototype.canWeBeginNow = function () {
 Session.prototype.keepTheAncient = function (player) {
     log("<b>" + player.getName() + "</b> si ponechává ve hře svoji starou bytost, " + player.activeCreature.toLink() + ".");
     enterSendIntoArenaPhase();
+    if (!this.local && player.you){
+        this.sendMove(new Move(null, true,  MOVE_KEEP_THE_ANCIENT, {})); // TODO checksum
+    }
     this.enqueuePrioritized(QWaitForCalm());
     this.checkQueue();
     // TODO multiplayer
@@ -295,6 +309,9 @@ Session.prototype.keepTheAncient = function (player) {
 Session.prototype.discardTheAncient = function (player) {
   var ancient = player.activeCreature;
   log("<b>" + player.getName() + "</b> odhodil svoji starou bytost, " + ancient.toLink() + ".");
+    if (!this.local && player.you){
+        this.sendMove(new Move(null, true,  MOVE_DISCARD_THE_ANCIENT, {})); // TODO checksum
+    }
   player.discardPile.discard(ancient);
   player.activeCreature = null;
   enterSendIntoArenaPhase();

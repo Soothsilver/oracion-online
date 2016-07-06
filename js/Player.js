@@ -15,9 +15,8 @@ class Player {
         this.cards = [];
         /** @type Creature */
         this.activeCreature = null;
-        /** @type DiceRoller */
-        this.roller = null;
         this.deaths = 0;
+        this.empowerment = 0;
     }
     getName() {
         if (this.you) {
@@ -47,8 +46,20 @@ class Player {
             }
             var toPlay = playables[this.twister.between(0, playables.length)];
             this.session.incomingMove(new Move(null, false, MOVE_PLAY_CARD, { uniqueIdentifier: toPlay.uniqueIdentifier} ));
-        } else if (this.session.phase == PHASE_MAIN && !this.session.enemyWantsToGoToCombat) {
-            this.session.incomingMove(new Move(null, false,  MOVE_PROCEED_TO_COMBAT, {}));
+        } else if (this.session.phase == PHASE_MAIN) {
+            var playables = [];
+            for (var i = 0; i < this.hand.cards.length; i++) {
+                if (isPlayable(this,  this.hand.cards[i])) {
+                    playables.push(this.hand.cards[i]);
+                }
+            }
+            if (playables.length > 0) {
+                var toPlay = playables[this.twister.between(0, playables.length)];
+                this.session.incomingMove(new Move(null, false, MOVE_PLAY_CARD, { uniqueIdentifier: toPlay.uniqueIdentifier} ));
+            }
+            else if (!this.session.enemyWantsToGoToCombat) {
+                this.session.incomingMove(new Move(null, false,  MOVE_PROCEED_TO_COMBAT, {}));
+            }
         }
     }
     getArenaRectangle() {
@@ -60,6 +71,16 @@ class Player {
         }
         return new Rectangle(element.position().left, element.position().top,
             element.width(), element.height());
+    }
+    getToolRectangle(index) {
+    var element;
+    if (this.you) {
+        element = $("#yourArena");
+    } else {
+        element = $("#enemyArena");
+    }
+    return new Rectangle(element.position().left - (1+ index) * 50, element.position().top,
+        element.width(), element.height());
     }
     drawCard(quick = true) {
         if (this.deck.cards.length == 0) {
@@ -80,10 +101,11 @@ class Player {
 Player.prototype.constructDeck = function () {
     log ("Sestavuji balíček...");
   for (var i = 0; i < 40; i++) {
+      var card;
       if (this.deckname == "random") {
-          var card = getRandomCard(this.twister);
+          card = getRandomCard(this.twister);
       } else if (this.deckname == "tools") {
-          var card = getRandomCard(this.twister);
+          card = getRandomCard(this.twister);
           var tries = 0;
           while (!(card instanceof Tool) && tries < 10) {
               card = getRandomCard(this.twister);

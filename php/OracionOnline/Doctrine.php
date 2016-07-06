@@ -2,6 +2,7 @@
 
 namespace OracionOnline;
 
+use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Katzgrau;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
@@ -30,6 +31,8 @@ class Doctrine
         $isDevMode = true;
         $paths = array("php/OracionOnline/Models");
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $config->setProxyDir(__DIR__ . "/Proxies");
+        $config->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_NEVER);
         $conn = array(
           'driver' => 'mysqli',
           'user'   => 'petr',

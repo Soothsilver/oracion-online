@@ -8,14 +8,22 @@ class Card {
         this.element = null;
         this.targetPosition = null;
         this.uniqueIdentifier = 0;
-        this.abilities = [];
+        this.inherentAbilities = [];
         /** @type Player */
         this.controller = null;
         this.evil = false;
     }
 
     recalculateModifiers() {
+        // Abstract.
         this.modifiers = [];
+    }
+    preroll() {
+        // Abstract.
+
+    }
+    postroll () {
+        // Abstract.
     }
     roll () {
         return {
@@ -35,6 +43,7 @@ class Card {
         this.element.attr("src", this.image);
         this.element.css("left", visualTwister.between(-100, 1000));
         this.element.css("top", visualTwister.between(-100, 400));
+        this.element.css("zIndex", 400);
         var capturedThis = this;
         this.element.mouseenter(function () {
            if (!capturedThis.facedown) {

@@ -8,10 +8,44 @@ class Creature extends Card {
         this.god = false;
         this.ex = false;
         this.inherentModifiers = [];
+        /** @type Player */
+        this.controller = null;
         /** @type Modifier[] */
         this.modifiers = [];
+        /** @type Tool[] */
+        this.attachedCards = [];
     }
 
+    /**
+     *
+     * @returns Ability[]
+     */
+    getAbilities() {
+        return [].concat(this.inherentAbilities);
+    }
+    hasAbility(abilityId) {
+
+        var abilities = this.getAbilities();
+        for (var i = 0; i < abilities.length; i++) {
+            if (abilities[i].id == abilityId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    preroll() {
+        
+    }
+    postroll (victory) {
+
+        var abilities = this.getAbilities();
+        for (var i = 0; i < abilities.length; i++) {
+            var ability = abilities[i];
+            ability.postroll(victory, this);
+        }
+    }
+    
     roll() {
         var total = 0;
         var description = "";
@@ -32,10 +66,26 @@ class Creature extends Card {
     }
 
     recalculateModifiers() {
+        // Basic
         this.modifiers = [];
         for (var i = 0; i < this.inherentModifiers.length; i++) {
             this.modifiers.push(this.inherentModifiers[i]);
         }
+
+        // Tools
+        for ( i = 0; i < this.attachedCards.length; i++) {
+            for (var j = 0; j < this.attachedCards[i].inherentModifiers.length; j++) {
+                this.attachedCards[i].inherentModifiers[j].name = this.attachedCards[i].name;
+                this.modifiers.push(this.attachedCards[i].inherentModifiers[j]);
+            }
+        }
+
+        // Empowerment
+        for ( i = 0; i < this.controller.empowerment; i++) {
+            this.modifiers.push(ModifierD6("Posílení z minulého kola"));
+        }
+
+        // Type bonus
         var enemyCreature = this.controller.session.enemy.activeCreature == this ?
             this.controller.session.you.activeCreature : this.controller.session.enemy.activeCreature;
         if (enemyCreature != null) {

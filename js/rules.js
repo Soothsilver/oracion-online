@@ -1,7 +1,7 @@
 var hasCreatureInHand = function (player) {
     for (var i = 0; i < player.hand.cards.length; i++) {
         if (player.hand.cards[i] instanceof Creature) {
-            if (player.hand.cards[i].ex != "true") {
+            if (player.hand.cards[i].ex != true) {
                 return true;
             }
         }
@@ -23,13 +23,22 @@ var isPlayable = function (player, card) {
       if (hasCreatureInHand(player)) {
           var isCreature = card instanceof Creature;
           if (isCreature) {
-                return card.ex != "true";
+                /** @type Creature */
+                var creature = card;
+                return creature.ex != true;
           }
       } else {
           return true;
       }
+  } else if (player.activeCreature != null && (player.activeCreature instanceof Creature) && player.session.phase == PHASE_MAIN) {
+
+     if ((card instanceof Tool) || (card instanceof Action)) {
+         return true;
+     }
+      // TODO ex creatures
+      // TODO tool restrictions
+     return false;
   } else {
-      // We're playing an action or a tool.
       return false;
   }
 };

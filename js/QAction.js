@@ -43,6 +43,12 @@ var exhaust = function (whom) {
         }
         log (whom.toLink() + " je bůh a tedy vydrží ve hře jen jedno kolo.");
         whom.controller.discardPile.discard(whom);
+    } else if (whom.hasAbility("SingleTurn")) {
+        if (whom.controller.activeCreature == whom) {
+            whom.controller.activeCreature = null;
+        }
+        log (whom.toLink() + " vydrží ve hře jen jedno kolo.");
+        whom.controller.discardPile.discard(whom);
     }
     whom.exhausted = true;
 };
@@ -60,11 +66,11 @@ var exhaust = function (whom) {
 var defaultScores = [
     {
         right: 350,
-        top: 380,
+        top: 380
     },
     {
         right: 350,
-        top: 120,
+        top: 120
     }
 ];
 var createCompleteFunction = function(score) {
@@ -134,15 +140,17 @@ var spawnScoreAnimation = function(yours, enemys, result) {
             },
             {
                 duration: 1500,
-                complete: createOpacityDecreaseFunction(score),
+                complete: createOpacityDecreaseFunction(score)
             });
         score.css({visibility: 'visible'});
     }
 };
 var QCombat = function () {
-  return new QAction(()=>{
+  return new QAction(()=> {
       session.you.activeCreature.recalculateModifiers();
       session.enemy.activeCreature.recalculateModifiers();
+      session.you.activeCreature.preroll();
+      session.enemy.activeCreature.preroll();
       var yourResult = session.you.activeCreature.roll();
       var enemyResult = session.enemy.activeCreature.roll();
       log("<b>Boj!</b> Tvoje útočná síla je <b>" + yourResult.description + "</b>. Soupeřova útočná síla je <b>" + enemyResult.description + "</b>.");
@@ -155,12 +163,19 @@ var QCombat = function () {
       else if (yourValue == enemyValue) result = "draw";
       else if (yourValue < enemyValue) result = "loss";
 
+      session.you.empowerment = 0;
+      session.enemy.empowerment = 0;
+      session.you.activeCreature.postroll(result);
+      session.enemy.activeCreature.postroll(result);
+
+      setMiddleBar("Souboj se vyhodnocuje...");
+
       spawnScoreAnimation(yourValue, enemyValue, result);
 
       // Combat resolution:
       session.enqueuePrioritized(new QAction(()=> {
 
-          setMiddleBar("Souboj se vyhodnocuje...");
+          setMiddleBar("Čekej...");
 
           switch (result){
               case "win":

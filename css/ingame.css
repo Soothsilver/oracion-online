@@ -23,7 +23,7 @@ html {
     width: 241px;
     height: 381px;*/
     top: 50px;
-    z-index: 50;
+    z-index: 5000;
     right: 10px;
     border: 1px solid black;
 }
@@ -31,6 +31,7 @@ html {
     position: absolute;
     left: 520px;
     top: 280px;
+    z-index: 4000;
 }
 
 #endgame-panel {
@@ -39,7 +40,7 @@ html {
     width: 600px;
     height: 400px;
     top: 200px;
-    z-index: 1200;
+    z-index: 200000;
 }
 
 #keepButton {
@@ -47,14 +48,14 @@ html {
     left: 390px;
     top: 360px;
     width: 290px;
-    z-index: 800;
+    z-index: 4000;
 }
 #discardButton {
     position: absolute;
     left: 390px;
     top: 410px;
     width: 290px;
-    z-index: 800;
+    z-index: 4000;
 }
 .disabledFightButton {
     opacity: 0.3 !important;
