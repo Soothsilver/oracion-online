@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Oracion Online</title>
@@ -11,6 +11,8 @@
     <script src="/js/diceroller.js"></script>
     <script src="/js/extensions.js"></script>
     <script src="/js/rules.js"></script>
+    <script src="/js/Ability.js"></script>
+    <script src="/js/Modifier.js"></script>
     <script src="/js/Rectangle.js"></script>
     <script src="/js/QAction.js"></script>
     <script src="/js/DiscardPile.js"></script>
@@ -18,10 +20,13 @@
     <script src="/js/Deck.js"></script>
     <script src="/js/Player.js"></script>
     <script src="/js/Session.js"></script>
+    <script src="/js/endgame.js"></script>
     <script src="/js/Move.js"></script>
     <script src="/js/Card.js"></script>
     <script src="/js/Cards.js"></script>
     <script src="/js/Creature.js"></script>
+    <script src="/js/Action.js"></script>
+    <script src="/js/Tool.js"></script>
     <script src="/js/ingame.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -39,15 +44,50 @@
     <div id="yourHand" class="zone">Tvoje ruka</div>
     <div id="enemyHand" class="zone">Soupeřova ruka</div>
     <div id="yourArena" class="zone">Tvoje aktivní bytost</div>
+    <div id="yourModifiers" class="modifiers">Tvoje modifikátory</div>
     <div id="enemyArena" class="zone">Soupeřova aktivní bytost</div>
+    <div id="enemyModifiers" class="modifiers">
+        <div class="modifier">
+            <img src="img/d20.png">
+             Základní síla
+        </div>
+        <div class="modifier">
+            <img src="img/d6.png">
+            Základní síla
+        </div>
+        <div class="modifier">
+            <img src="img/dPlus.png">
+            <b>+4</b> Základní síla
+        </div>
+        <div class="modifier">
+            <img src="img/ferocity.png">
+            Zuřivost 6
+        </div>
+    </div>
     <div id="yourDiscardPile" class="zone">Tvůj odhazovací balíček</div>
     <div id="enemyDiscardPile" class="zone">Soupeřův odhazovací balíček</div>
     <img id="showoff" src="">
     <div id="middlebar" class="zone">Hra se načítá ...</div>
     <div id="statistics"><b>Statistiky:</b><br>Zatím jsi vyřadil <b id="enemyDeaths">0</b> bytostí.<br>Soupeř ti vyřadil <b id="yourDeaths">0</b> bytostí.</div>
-    <button type="button" class="btn btn-lg btn-danger" id="fightButton" disabled onclick="fightButton();">Do boje!</button>
+    <button type="button" class="btn btn-lg btn-danger disabledFightButton" disabled id="fightButton"  onclick="fightButton();">Do boje!</button>
+    <button type="button" class="btn btn-lg btn-success" style="display: none;" id="keepButton"  onclick="keepButton();">Ponechat bytost v aréně</button>
+    <button type="button" class="btn btn-lg btn-primary" style="display: none;"  id="discardButton"  onclick="discardButton();">Odhodit bytost</button>
     <input type="hidden" id="id" value="[[ID]]" />
     <input type="hidden" id="deck" value="[[DECK]]" />
+    <div id="yourScore" class="score scoreFailure" style="visibility: hidden;">42</div>
+    <div id="enemyScore" class="score scoreSuccess" style="visibility: hidden;">10</div>
+    <div class="panel panel-primary" id="endgame-panel" style="display: none;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Konec hry</h3>
+        </div>
+        <div class="panel-body">
+            Hra skončila.
+            <br><br>
+            <span id="endgame-reason"><i>Důvod ukončení hry není známý.</i></span>
+            <br><br>
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '?';">Vrátit se do hlavního menu</button>
+        </div>
+    </div>
 </div>
 <div class="logscreen" id="log">
  Hra začíná!

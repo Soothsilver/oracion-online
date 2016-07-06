@@ -18,6 +18,12 @@ $(document).ready(function() {
 var fightButton = function () {
    session.confirmNoFurtherActions(session.you);
 };
+var keepButton = function () {
+    session.keepTheAncient(session.you);
+};
+var discardButton = function () {
+    session.discardTheAncient(session.you);
+};
 
 var visualTwister = new MersenneTwister();
 

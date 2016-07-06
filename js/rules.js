@@ -1,7 +1,9 @@
 var hasCreatureInHand = function (player) {
     for (var i = 0; i < player.hand.cards.length; i++) {
         if (player.hand.cards[i] instanceof Creature) {
-            return true;
+            if (player.hand.cards[i].ex != "true") {
+                return true;
+            }
         }
     }
     return false;
@@ -16,10 +18,13 @@ var isPlayable = function (player, card) {
   if (!player.hand.cards.contains(card)) {
       return false;
   }
-  if (player.activeCreature == null) {
+  if (player.activeCreature == null && player.session.phase == PHASE_SEND_INTO_ARENA) {
       // We're playing a creature.
       if (hasCreatureInHand(player)) {
-          return card instanceof Creature;
+          var isCreature = card instanceof Creature;
+          if (isCreature) {
+                return card.ex != "true";
+          }
       } else {
           return true;
       }

@@ -5,11 +5,23 @@ html {
     -o-background-size: cover;
     background-size: cover;
 }
+.playable {
+    box-shadow:0px 0px 4px 4px #0066cc
+    /*animation:pulse 0.5s ease-in-out infinite alternate;*/
+}
+.hoverplayable {
+    animation:pulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes pulse {
+    from { box-shadow:0px 0px 4px 4px #0066cc; }
+    to { box-shadow:0px 0px 8px 8px #0066cc; }
+}
 #showoff {
     display: none;
     position: absolute;
+    /*
     width: 241px;
-    height: 381px;
+    height: 381px;*/
     top: 50px;
     z-index: 50;
     right: 10px;
@@ -20,8 +32,32 @@ html {
     left: 520px;
     top: 280px;
 }
+
+#endgame-panel {
+    position: absolute;
+    left: 300px;
+    width: 600px;
+    height: 400px;
+    top: 200px;
+    z-index: 1200;
+}
+
+#keepButton {
+    position: absolute;
+    left: 390px;
+    top: 360px;
+    width: 290px;
+    z-index: 800;
+}
+#discardButton {
+    position: absolute;
+    left: 390px;
+    top: 410px;
+    width: 290px;
+    z-index: 800;
+}
 .disabledFightButton {
-    opacity: 0.5;
+    opacity: 0.3 !important;
 }
 
 .ingamefull {
@@ -58,6 +94,33 @@ html {
     left: 0px;
     top:0px;
 }
+.modifiers {
+    border: #cefdf3 1px solid;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(82, 168, 236, 0.6);
+    background-color: #d8f1f5;
+    text-align: center;
+    position: absolute;
+}
+#yourModifiers {
+    right: 25px;
+    width: 250px;
+    height: 250px;
+    top: 305px;
+}
+#enemyModifiers {
+    right: 25px;
+    width: 250px;
+    height: 250px;
+    top: 45px;
+    ;
+}
+.modifier {
+    text-align: left;
+}
+.modifier img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
 .zone {
     border: #cefdf3 1px solid;
     border-radius: 10px;
@@ -67,9 +130,9 @@ html {
     position: absolute;
     display: flex;
     align-items: center;
+    justify-content: center;
     font-family: serif;
     font-style: italic;
-    justify-content: center;
 }
 #yourDiscardPile {
     left: 20px;
@@ -146,3 +209,46 @@ html {
     <div id="yourDiscardPile" class="zone">Tvůj odhazovací balíček</div>
     <div id="enemyDiscardPile" class="zone">Soupeřův odhazovací balíček</div>
     <div id="middlebar" class="zone">Hra se načítá ...</div>*/
+
+.score {
+    z-index: 900;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    justify-content: center;
+    font-size: 30px;
+}
+.scoreSuccess {
+    background-color: white;
+    box-shadow: 0px 0px 50px 10px rgba(100,212,8,0.9);
+}
+.scoreFailure {
+    background-color: lightgray;
+    box-shadow: 0px 0px 50px 10px rgba(212,8,8,1);
+
+
+}
+#yourScore {
+    right: 350px;
+    top: 380px;
+}
+#enemyScore {
+    right: 350px;
+    top: 120px;
+}
+/*#yourArena {
+    right: 300px;
+    width: 200px;
+    height: 250px;
+    top: 305px;
+}
+#enemyArena {
+    right: 300px;
+    width: 200px;
+    height: 250px;
+    top: 45px;
+}*/

@@ -17,10 +17,32 @@ var Session = function (gameId) {
     this.lastUniqueIdentifier = 0;
     this.cardsByUniqueIdentifier = {};
     this.highIndex = 2;
+    this.gameover = false;
+    this.phase = PHASE_BEGINNING;
     this.lowIndex = -2;
     /** @type QAction[] */
     this.queue = [];
+    var capturedThis = this;
+    $(".ingamefull").on("mouseenter", ".autocard", function (event) {
+        var cardId = event.target.getAttribute("data-card");
+        var card = capturedThis.cardsByUniqueIdentifier[cardId];
+        capturedThis.showOffCard = card;
+        $("#showoff").attr("src", card.image).show();
+    });
+    $(".ingamefull").on("mouseleave", ".autocard", function (event) {
+        var cardId = event.target.getAttribute("data-card");
+        var card = capturedThis.cardsByUniqueIdentifier[cardId];
+        if (capturedThis.showOffCard == card) {
+            $("#showoff").hide();
+            capturedThis.showOffCard = null;
+        }
+    });
 };
+const PHASE_BEGINNING = "beginning";
+const PHASE_KEEP_THE_ANCIENT = "keep the ancient";
+const PHASE_SEND_INTO_ARENA = "send into arena";
+const PHASE_MAIN = "main phase";
+const PHASE_COMBAT = "combat";
 Session.prototype.getHighZIndex = function () {
     this.highIndex++;
     return this.highIndex;
@@ -38,6 +60,7 @@ Session.prototype.confirmNoFurtherActions = function (player) {
       $("#fightButton").addClass("disabledFightButton");
       $("#fightButton").attr("disabled", true);
       this.iWantToGoToCombat = true;
+      setMiddleBar("Čekám, než se soupeř rozhodne přejít do boje...");
       if (!this.local) {
           this.sendMove(new Move(null, true, MOVE_PROCEED_TO_COMBAT, { /* checksum here*/ }));
       }
@@ -62,6 +85,8 @@ Session.prototype.canWeMoveToMainPhase = function () {
           setMiddleBar("Hraj nástroje nebo akce, nebo klikni 'Do boje!'");
           $("#fightButton").removeClass("disabledFightButton");
           $("#fightButton").attr("disabled", false);
+          this.phase = PHASE_MAIN;
+
       }
   }
 };
@@ -111,14 +136,57 @@ Session.prototype.sendMove = function (move) {
     });
 };
 Session.prototype.click = function (card)  {
+    if (this.gameover) {
+        return; // Game has already ended.
+    }
     if (this.queue.length != 0) {
         return; // Wait until it's calm.
     }
-    if (isPlayable(this.you, card)) {
-        this.playCard(this.you, card);
+
+    if (this.phase == PHASE_SEND_INTO_ARENA || this.phase == PHASE_MAIN) {
+        if (isPlayable(this.you, card)) {
+            this.playCard(this.you, card);
+        }
     }
 };
+/**
+ * @param {Player} player
+ */
+Session.prototype.updateModifiers = function (player) {
+    var elements = player.you ? $("#yourModifiers") : $("#enemyModifiers");
+    player.activeCreature.recalculateModifiers();
+    for (var i = 0; i < player.activeCreature.modifiers.length; i++) {
+        var modifier = player.activeCreature.modifiers[i];
+        var element = $("<div></div>").addClass('modifier');
+        var img = $("<img>");
+        img.attr("src", modifier.image);
+        element.append(img);
+        element.append(modifier.name);
+        elements.append(element);
+    }
+};
+Session.prototype.stateBased = function () {
+    for (var i =0 ; i < this.you.cards.length; i++) {
+        var crd = this.you.cards[i];
+        if (isPlayable(this.you, crd)) {
+            crd.element.addClass("playable");
+        } else {
+            crd.element.removeClass("playable");
+        }
+    }
+
+    $("#yourModifiers").html("");
+    $("#enemyModifiers").html("");
+    if (this.you.activeCreature != null) {
+        this.updateModifiers(this.you);
+    }
+    if (this.enemy.activeCreature != null ) {
+        this.updateModifiers(this.enemy);
+    }
+
+};
 Session.prototype.checkQueue = function () {
+   this.stateBased(); 
    if (this.queue.length > 0) {
        var top = this.queue[0];
        if (top.waitForCalm) {
@@ -196,8 +264,31 @@ Session.prototype.canWeBeginNow = function () {
         log("Čekám, než soupeř potvrdí svůj balíček...");
     }
 };
+Session.prototype.keepTheAncient = function (player) {
+    log("<b>" + player.getName() + "</b> si ponechává ve hře svoji starou bytost, " + player.activeCreature.toLink() + ".");
+    enterSendIntoArenaPhase();
+    this.enqueuePrioritized(QWaitForCalm());
+    this.checkQueue();
+};
+Session.prototype.discardTheAncient = function (player) {
+  var ancient = player.activeCreature;
+  log("<b>" + player.getName() + "</b> odhodil svoji starou bytost, " + ancient.toLink() + ".");
+  player.discardPile.discard(ancient);
+  player.activeCreature = null;
+  enterSendIntoArenaPhase();
+  this.enqueuePrioritized(QWaitForCalm());
+  this.checkQueue();
+};
 Session.prototype.incomingMove = function (move) {
   switch (move.type) {
+      case MOVE_KEEP_THE_ANCIENT:
+          if (move.yours) break;
+          this.keepTheAncient(this.enemy);
+          break;
+      case MOVE_DISCARD_THE_ANCIENT:
+          if (move.yours) break;
+          this.discardTheAncient(this.enemy);
+          break;
       case MOVE_LOAD_DECK:
           if (move.yours) {
               this.you = new Player(true, move.argument, this);
@@ -224,12 +315,9 @@ Session.prototype.incomingMove = function (move) {
           this.canWeBeginNow();
           break;
       case MOVE_PLAY_CARD:
-          console.log("A request arrived.");
           if (move.yours) break;
           var capturedThis = this;
           var theCard = this.cardsByUniqueIdentifier[move.argument.uniqueIdentifier];
-          console.log(this.cardsByUniqueIdentifier);
-          console.log(theCard);
           this.enqueue(new QAction(()=>{
               capturedThis.playCard(capturedThis.enemy, theCard);
           }, true));

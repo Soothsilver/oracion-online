@@ -8,13 +8,14 @@ class Card {
         this.element = null;
         this.targetPosition = null;
         this.uniqueIdentifier = 0;
-        this.beingDiscarded = false;
+        this.abilities = [];
         /** @type Player */
         this.controller = null;
+        this.evil = false;
     }
 
     toLink() {
-        return "<b>" + this.name + "</b>";
+        return "<b><a href='javascript:void();' data-card='" + this.uniqueIdentifier +"' class='autocard'>" + this.name + "</a></b>";
     }
     
     constructSelfDomElement() {
@@ -23,19 +24,23 @@ class Card {
         this.element.addClass("card");
         this.element.attr("src", this.image);
         this.element.css("left", visualTwister.between(-100, 1000));
-        this.element.css("top", visualTwister.between(-100, 1000));
+        this.element.css("top", visualTwister.between(-100, 400));
         var capturedThis = this;
         this.element.mouseenter(function () {
            if (!capturedThis.facedown) {
                session.showOffCard = capturedThis;
                $("#showoff").attr("src", capturedThis.image).show();
            }
+            if (isPlayable(capturedThis.controller, capturedThis)) {
+                capturedThis.element.addClass("hoverplayable");
+            }
         });
         this.element.mouseleave(function () {
            if (session.showOffCard == capturedThis) {
                $("#showoff").hide();
                session.showOffCard = null;
            }
+            capturedThis.element.removeClass("hoverplayable");
         });
         this.element.click(function() {
            session.click(capturedThis);
@@ -65,7 +70,7 @@ class Card {
             height: rectangle.height
         }, 
             {
-                duration: quick ? 100 : 1000,
+                duration: quick ? 100 : 100,
                 complete: function () {
                     session.animationCompleted();
                 }

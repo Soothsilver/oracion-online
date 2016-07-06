@@ -10,7 +10,9 @@ class Player {
         /** @type Hand */
         this.hand = new Hand(you, []);
         this.discardPile = new DiscardPile(you, []);
+        this.deathsToLose = 4;
         this.you = you;
+        this.cards = [];
         /** @type Creature */
         this.activeCreature = null;
         /** @type DiceRoller */
@@ -25,7 +27,18 @@ class Player {
         }
     }
     artificialIntelligence() {
-        if (this.activeCreature == null) {
+        if (this.session.gameover) {
+            // Nothing to be done.
+        }
+        else if (this.session.phase == PHASE_KEEP_THE_ANCIENT) {
+            if (this.activeCreature == null) {
+                // Just wait for the player.
+            } else {
+                // Always keep.
+                this.session.incomingMove(new Move(null, false,  MOVE_KEEP_THE_ANCIENT, {}));
+            }
+        }
+        else if (this.activeCreature == null && this.session.phase == PHASE_SEND_INTO_ARENA) {
             var playables = [];
             for (var i = 0; i < this.hand.cards.length; i++) {
                 if (isPlayable(this,  this.hand.cards[i])) {
@@ -34,7 +47,7 @@ class Player {
             }
             var toPlay = playables[this.twister.between(0, playables.length)];
             this.session.incomingMove(new Move(null, false, MOVE_PLAY_CARD, { uniqueIdentifier: toPlay.uniqueIdentifier} ));
-        } else if (this.session.you.activeCreature != null && !this.session.enemyWantsToGoToCombat) {
+        } else if (this.session.phase == PHASE_MAIN && !this.session.enemyWantsToGoToCombat) {
             this.session.incomingMove(new Move(null, false,  MOVE_PROCEED_TO_COMBAT, {}));
         }
     }
@@ -70,6 +83,7 @@ Player.prototype.constructDeck = function () {
       var card = getRandomCard(this.twister);
       card.uniqueIdentifier = this.session.lastUniqueIdentifier;
       card.controller = this;
+      this.cards.push(card);
       this.session.lastUniqueIdentifier++;
       this.session.cardsByUniqueIdentifier[card.uniqueIdentifier] = card;
       this.deck.add(card);
