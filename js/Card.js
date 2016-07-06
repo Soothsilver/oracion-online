@@ -14,6 +14,16 @@ class Card {
         this.evil = false;
     }
 
+    recalculateModifiers() {
+        this.modifiers = [];
+    }
+    roll () {
+        return {
+            total: -1,
+            description : "[není bytost]"
+        }
+    }
+
     toLink() {
         return "<b><a href='javascript:void();' data-card='" + this.uniqueIdentifier +"' class='autocard'>" + this.name + "</a></b>";
     }

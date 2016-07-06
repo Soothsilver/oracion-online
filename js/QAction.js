@@ -31,8 +31,6 @@ var kill = function (whom) {
  * @param {Creature} whom
  */
 var exhaust = function (whom) {
-    console.log("Exhausting");
-    console.log(whom);
     if (whom.exhausted) {
         if (whom.controller.activeCreature == whom) {
             whom.controller.activeCreature = null;
@@ -89,6 +87,15 @@ var createOpacityDecreaseFunction = function(score) {
 var spawnScoreAnimation = function(yours, enemys, result) {
     var yourScore = $("#yourScore");
     var enemyScore = $("#enemyScore");
+    var font = 36;
+    if (yours == -1) {
+        yours = "není bytost";
+        font = 8;
+    }
+    if (enemys == -1) {
+        enemys = "není bytost";
+        font = 8;
+    }
     yourScore.text(yours).removeClass("scoreSuccess").removeClass("scoreFailure");
     enemyScore.text(enemys).removeClass("scoreSuccess").removeClass("scoreFailure");
     if (result == "win") {
@@ -102,7 +109,6 @@ var spawnScoreAnimation = function(yours, enemys, result) {
         enemyScore.addClass("scoreFailure");
     }
     var size = 100;
-    var font = 36;
     var fontIncrease = 14;
     var widthIncrease = 100;
     var scores = [ yourScore,  enemyScore ];

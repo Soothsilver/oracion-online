@@ -54,7 +54,7 @@ var handleUpdates = function (moves) {
 };
 var updateRequested = false;
 var requestUpdate = function () {
-    if (!updateRequested) {
+    if (!updateRequested && !session.gameover) {
         $.ajax({
             type: "GET",
             dataType: "json",

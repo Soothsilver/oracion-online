@@ -48,7 +48,9 @@ class AjaxResponder
                 $move->player = $this->session->getUser();
                 $move->moveArgument = $data["moveArgument"];
                 Doctrine::persistAndFlush($move);
-                return "success";
+                return json_encode([
+                    "success" => true
+                ]);
             case "getMoves":
                 if (!isset($data["gameId"])) {
                     return false;
@@ -100,7 +102,7 @@ class AjaxResponder
                         $game->status = Game::STATUS_PLAYING;
                         $move = new Move();
                         $move->game = $game;
-                        $move->moveArgument = $deckname;
+                        $move->moveArgument = json_encode($deckname);
                         $move->player = $this->session->getUser();
                         $move->moveType = SharedConstants::MOVE_DECK_NAME;
                         Doctrine::getEntityManager()->persist($move);
@@ -170,7 +172,7 @@ class AjaxResponder
                 $moveDeck = new Move();
                 $moveDeck->game = $game;
                 $moveDeck->moveType = SharedConstants::MOVE_DECK_NAME;
-                $moveDeck->moveArgument = $deckname;
+                $moveDeck->moveArgument = json_encode($deckname);
                 $moveDeck->player = $this->session->getUser();
                 $moveRandom = new Move();
                 $moveRandom->game = $game;

@@ -79,8 +79,19 @@ class Player {
 
 Player.prototype.constructDeck = function () {
     log ("Sestavuji balíček...");
-  for (var i = 0; i < 20; i++) {
-      var card = getRandomCard(this.twister);
+  for (var i = 0; i < 40; i++) {
+      if (this.deckname == "random") {
+          var card = getRandomCard(this.twister);
+      } else if (this.deckname == "tools") {
+          var card = getRandomCard(this.twister);
+          var tries = 0;
+          while (!(card instanceof Tool) && tries < 10) {
+              card = getRandomCard(this.twister);
+              tries = tries + 1;
+          }
+      } else {
+          console.log("unknown deck name");
+      }
       card.uniqueIdentifier = this.session.lastUniqueIdentifier;
       card.controller = this;
       this.cards.push(card);

@@ -22,7 +22,6 @@ function updateGamesList(newList) {
     var list = $("#games");
     var selectedOption = $("#games").val();
     list.empty();
-    console.log(selectedOption);
     $.each(newList, function (key,value) {
         var gameRepresentation = "Hra " + value.id + " (" + value.firstPlayer + " vs. " + value.secondPlayer + ", status " + value.status + ")";
 
@@ -124,7 +123,6 @@ var statisticsSend = function() {
         dataType : "json",
         success: function(msg) {
             // Parse statistics
-            console.log(msg);
             $("#gameCount").text(msg.gamesPlayed);
             $("#gameVictories").text(msg.gamesWon);
             $("#numOnline").text(msg.onlineCount);

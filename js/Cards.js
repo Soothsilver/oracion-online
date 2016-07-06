@@ -136,7 +136,6 @@ var createCard = function (description) {
             break;
     }
     card.inherentModifiers = description.inherentModifiers;
-    console.log (card.name + " has " + card.inherentModifiers.length);
     card.abilities = description.abilities;
     card.evil = description.evil;
     return card;

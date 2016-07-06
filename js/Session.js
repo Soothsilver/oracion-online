@@ -20,6 +20,9 @@ var Session = function (gameId) {
     this.gameover = false;
     this.phase = PHASE_BEGINNING;
     this.lowIndex = -2;
+    this.toBeSentQueue = [];
+    this.sendingInProgress = false;
+    this.hasBeenReceivedQueue = [];
     /** @type QAction[] */
     this.queue = [];
     var capturedThis = this;
@@ -108,7 +111,7 @@ Session.prototype.playCard = function (player, card) {
         card.moveToRectangle(player.getArenaRectangle(), false);
         this.canWeMoveToMainPhase();
 
-        if (!this.local) {
+        if (!this.local && player.you) {
             this.sendMove(new Move(null, true, MOVE_PLAY_CARD, { uniqueIdentifier: card.uniqueIdentifier }));
         }
         this.checkQueue();
@@ -118,6 +121,17 @@ Session.prototype.playCard = function (player, card) {
  * @param {Move} move
  */
 Session.prototype.sendMove = function (move) {
+    this.toBeSentQueue.push(move);
+    if (!this.sendingInProgress) {
+        this.launchSend();
+    }
+};
+Session.prototype.launchSend = function () {
+    if (this.sendingInProgress) return;
+    if (this.toBeSentQueue.length == 0) return;
+    this.sendingInProgress = true;
+    var move = this.toBeSentQueue.shift();
+    var theSession = this;
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -129,9 +143,16 @@ Session.prototype.sendMove = function (move) {
         },
         success: function (msg) {
             console.log("Move sent.");
+            theSession.sendingInProgress = false;
+            theSession.launchSend();
         },
         error: function (msg) {
             console.log("Move failed to send. We are now in desync.");
+            console.log("Move was:");
+            console.log(move);
+            console.log("Reason follows: ");
+            console.log(msg);
+            theSession.endTheGame(ENDGAME_DESYNC, "Nepodařilo se odeslat naši akci, čímž byla způsobena desynchronizace." )
         }
     });
 };
@@ -269,6 +290,7 @@ Session.prototype.keepTheAncient = function (player) {
     enterSendIntoArenaPhase();
     this.enqueuePrioritized(QWaitForCalm());
     this.checkQueue();
+    // TODO multiplayer
 };
 Session.prototype.discardTheAncient = function (player) {
   var ancient = player.activeCreature;
@@ -278,6 +300,7 @@ Session.prototype.discardTheAncient = function (player) {
   enterSendIntoArenaPhase();
   this.enqueuePrioritized(QWaitForCalm());
   this.checkQueue();
+    // TODO multiplayer
 };
 Session.prototype.incomingMove = function (move) {
   switch (move.type) {
