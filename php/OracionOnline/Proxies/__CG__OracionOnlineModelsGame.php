@@ -36,7 +36,7 @@ class Game extends \OracionOnline\Models\Game implements \Doctrine\ORM\Proxy\Pro
      *
      * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = ['firstPlayer' => NULL, 'secondPlayer' => NULL, 'status' => 1];
+    public static $lazyPropertiesDefaults = ['firstPlayer' => NULL, 'secondPlayer' => NULL, 'status' => 1, 'lastInteractionDate' => NULL];
 
 
 
@@ -46,7 +46,7 @@ class Game extends \OracionOnline\Models\Game implements \Doctrine\ORM\Proxy\Pro
      */
     public function __construct($initializer = null, $cloner = null)
     {
-        unset($this->firstPlayer, $this->secondPlayer, $this->status);
+        unset($this->firstPlayer, $this->secondPlayer, $this->status, $this->lastInteractionDate);
 
         $this->__initializer__ = $initializer;
         $this->__cloner__      = $cloner;
@@ -108,7 +108,7 @@ class Game extends \OracionOnline\Models\Game implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'firstPlayer', 'secondPlayer', 'status'];
+            return ['__isInitialized__', 'id', 'firstPlayer', 'secondPlayer', 'status', 'lastInteractionDate'];
         }
 
         return ['__isInitialized__', 'id'];
@@ -133,7 +133,7 @@ class Game extends \OracionOnline\Models\Game implements \Doctrine\ORM\Proxy\Pro
                 }
             };
 
-            unset($this->firstPlayer, $this->secondPlayer, $this->status);
+            unset($this->firstPlayer, $this->secondPlayer, $this->status, $this->lastInteractionDate);
         }
     }
 

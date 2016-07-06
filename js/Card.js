@@ -31,6 +31,12 @@ class Card {
             description : "[není bytost]"
         }
     }
+    rollTwister (twister) {
+        return -1;
+    }
+    getAbilities() {
+        return [];
+    }
 
     toLink() {
         return "<b><a href='javascript:void();' data-card='" + this.uniqueIdentifier +"' class='autocard'>" + this.name + "</a></b>";

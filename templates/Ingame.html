@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <title>Oracion Online</title>
@@ -45,31 +45,19 @@
     <div id="yourHand" class="zone">Tvoje ruka</div>
     <div id="enemyHand" class="zone">Soupeřova ruka</div>
     <div id="yourArena" class="zone">Tvoje aktivní bytost</div>
-    <div id="yourModifiers" class="modifiers">Tvoje modifikátory</div>
+    <div id="yourModifiers" class="modifiers"></div>
     <div id="enemyArena" class="zone">Soupeřova aktivní bytost</div>
-    <div id="enemyModifiers" class="modifiers">
-        <div class="modifier">
-            <img src="img/d20.png">
-             Základní síla
-        </div>
-        <div class="modifier">
-            <img src="img/d6.png">
-            Základní síla
-        </div>
-        <div class="modifier">
-            <img src="img/dPlus.png">
-            <b>+4</b> Základní síla
-        </div>
-        <div class="modifier">
-            <img src="img/ferocity.png">
-            Zuřivost 6
-        </div>
-    </div>
+    <div id="enemyModifiers" class="modifiers"></div>
     <div id="yourDiscardPile" class="zone">Tvůj odhazovací balíček</div>
     <div id="enemyDiscardPile" class="zone">Soupeřův odhazovací balíček</div>
-    <img id="showoff" src="">
+    <img id="showoff" src="img/cardback.png" alt="Karta, nad kterou je zobrazená myš" style="display: none">
     <div id="middlebar" class="zone">Hra se načítá ...</div>
-    <div id="statistics"><b>Statistiky:</b><br>Zatím jsi vyřadil <b id="enemyDeaths">0</b> bytostí.<br>Soupeř ti vyřadil <b id="yourDeaths">0</b> bytostí.</div>
+    <div id="statistics">
+        <b>Statistiky:</b><br>
+        Zatím jsi vyřadil <b id="enemyDeaths">0</b> bytostí.<br>
+        Soupeř ti vyřadil <b id="yourDeaths">0</b> bytostí.<br><br>
+        <span id="victoryChance"></span>
+    </div>
     <button type="button" class="btn btn-lg btn-danger disabledFightButton" disabled id="fightButton"  onclick="fightButton();">Do boje!</button>
     <button type="button" class="btn btn-lg btn-success" style="display: none;" id="keepButton"  onclick="keepButton();">Ponechat bytost v aréně</button>
     <button type="button" class="btn btn-lg btn-primary" style="display: none;"  id="discardButton"  onclick="discardButton();">Odhodit bytost</button>

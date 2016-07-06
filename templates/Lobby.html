@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <title>Oracion Online : Lobby</title>
     <link href="/css/style.css" rel="stylesheet">
     <script src="//code.jquery.com/jquery-1.12.0.js"></script>
     <script src="/js/fm.validator.jquery.js"></script>
+    <script src="/js/heartbeat.js"></script>
     <script src="/js/lobby.js"></script>
 </head>
 <body>
     <div class="screen">
+        <div class="lobbyscreen">
         <div class="logincaption">
             Oracion Online : Lobby
         </div>
@@ -18,7 +20,7 @@
             Tvůj e-mail: <b>[[EMAIL]]</b><br>
             Počet her: <b><span id="gameCount">(načítám...)</span></b><br>
             Počet výher: <b><span id="gameVictories">(načítám...)</span></b><br>
-            Počet lidí online: <b><span id="numOnline">(načítám...)</span></b><br>
+            Počet lidí v lobby: <b><span id="numOnline">(načítám...)</span></b><br>
         </fieldset>
         <fieldset>
             <legend>Hrát hru</legend>
@@ -28,19 +30,23 @@
                 <option value="tools">Mnoho nástrojů</option>
             </select>
                 <br>
+            <br>
             <select name="games" id="games" size="10" style="width: 500px;">
 
             </select>
                 <br>
-            <input type="button" id="buttonJoinGame" value="Připojit se ke hře" style="width: 500px;" onclick="requestJoinGame();"><br>
-            <input type="button" id="buttonCreateGame" value="Založit novou hru" onclick="requestCreateGame();" style="width: 500px;">
-            <input type="button" id="buttonPlayAI" value="Hrát proti umělé inteligenci" style="width: 500px;" onclick="requestPlayAI();">
+            <input type="button" id="buttonJoinGame" value="Připojit se ke hře" class="startButton" onclick="requestJoinGame();"><br>
+            <br>
+            <input type="button" id="buttonCreateGame" value="Založit novou hru" class="startButton"  onclick="requestCreateGame();" style="width: 500px;">
+            <br><br>
+            <input type="button" id="buttonPlayAI" value="Hrát proti umělé inteligenci (lokálně)" class="startButton"  style="width: 500px;" onclick="requestPlayAI();">
         </fieldset>
         <fieldset>
             <legend>Odhlášení</legend>
             <a href="#" onclick="requestLogout(); return false;">Odhlásit se</a>
         </fieldset>
         <br><br>
+        </div>
     </div>
 </body>
 </html>

@@ -46,6 +46,9 @@ class FrontController
                 $lobbyView = new LobbyView();
                 echo $lobbyView->invoke($this->session);
             }
+        } else if (isset($_GET["game"]) && $_GET["game"] == "AI") {
+            $inGameView = new InGameView((int) $_GET["game"], "random");
+            echo $inGameView->invoke($this->session);
         } else {
             $loginView = new LoginView();
             echo $loginView->invoke($this->session);

@@ -1,5 +1,33 @@
 Session.prototype.endTheGame = function (kind, reason) {
     this.gameover = true;
+    if (kind == ENDGAME_VICTORY) {
+        if (!this.local) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "ajaxAction": "achieveVictory"
+                },
+                success: function (msg) {
+                    // Do nothing.
+                }
+            });
+        }
+    }
+
+    if (!this.local) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                "ajaxAction": "terminateGame",
+                "gameId": this.gameId
+            },
+            success: function (msg) {
+                // Do nothing.
+            }
+        });
+    }
     $("#endgame-reason").text(reason);
     $("#endgame-panel").show();
 

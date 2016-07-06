@@ -43,4 +43,10 @@ class Game
      * @Column(type="integer")
      */
     public $status = Game::STATUS_WAITING;
+
+    /**
+     * @var \DateTime
+     * @Column(type="datetime")
+     */
+    public $lastInteractionDate;
 }

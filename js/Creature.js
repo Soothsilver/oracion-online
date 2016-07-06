@@ -64,6 +64,14 @@ class Creature extends Card {
             description: description
         };
     }
+    rollTwister(twister) {
+        var total = 0;
+        for (var i = 0; i < this.modifiers.length; i++) {
+            var modifier = this.modifiers[i];
+            total += modifier.roll(twister);
+        }
+        return total;
+    }
 
     recalculateModifiers() {
         // Basic
@@ -80,15 +88,23 @@ class Creature extends Card {
             }
         }
 
+        // Abilities
+        var abilities = this.getAbilities();
+        for ( i = 0; i < abilities.length; i++) {
+            abilities[i].modifySelfModifiers(this, this.modifiers);
+        }
+
+
         // Empowerment
         for ( i = 0; i < this.controller.empowerment; i++) {
             this.modifiers.push(ModifierD6("Posílení z minulého kola"));
         }
 
-        // Type bonus
+        // Enemy intervention
         var enemyCreature = this.controller.session.enemy.activeCreature == this ?
             this.controller.session.you.activeCreature : this.controller.session.enemy.activeCreature;
         if (enemyCreature != null) {
+            // Type bonus
             var myType = this.color;
             var enemyType = enemyCreature.color;
             if (myType == "Leaf" && enemyType == "Water") {
@@ -97,6 +113,16 @@ class Creature extends Card {
                 this.modifiers.push(ModifierD6("Výhoda ohně proti lesu"));
             } else if (myType == "Water" && enemyType == "Fire") {
                 this.modifiers.push(ModifierD6("Výhoda vody proti ohni"));
+            }
+
+            var friendlyAbilities = this.getAbilities();
+            for ( i = 0; i < friendlyAbilities.length; i++) {
+                friendlyAbilities[i].modifySelfAgainstEnemyModifiers(this, this.modifiers);
+            }
+            // Abilities
+            var enemyAbilities = enemyCreature.getAbilities();
+            for ( i = 0; i < enemyAbilities.length; i++) {
+                enemyAbilities[i].modifyEnemyModifiers(enemyCreature, this, this.modifiers);
             }
         }
     }

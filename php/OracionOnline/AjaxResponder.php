@@ -78,6 +78,22 @@ class AjaxResponder
                  ];
                 }
                 return json_encode($arrayOutput);
+            case "achieveVictory":
+              $user = $this->session->getUser();
+              $user->gamesWon++;
+              Doctrine::persistAndFlush($user);
+              return json_encode(["success" => true]);
+            case "terminateGame":
+              if (!isset($data["gameId"])) {
+                return json_encode(["success" => false, "reason" => "Game ID not set." ]);
+              }
+              /**
+               * @var $game Game
+               */
+              $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $data["gameId"]);
+              $game->status = Game::STATUS_TERMINATED;
+              Doctrine::persistAndFlush($game);
+              return json_encode(["success" => true]);
             case "joinGame":
                 if (!isset($data["id"])) {
                     return json_encode(["success" => false, "reason" => "Data ID not set." ]);
@@ -105,6 +121,8 @@ class AjaxResponder
                         $move->moveArgument = json_encode($deckname);
                         $move->player = $this->session->getUser();
                         $move->moveType = SharedConstants::MOVE_DECK_NAME;
+                        $game->firstPlayer->gamesStarted++;
+                        $game->secondPlayer->gamesStarted++;
                         Doctrine::getEntityManager()->persist($move);
                     });
                     return json_encode(["success" => true]);
@@ -120,6 +138,8 @@ class AjaxResponder
                  * @var $game Game
                  */
                 $game = Doctrine::getEntityManager()->find(Doctrine::GAME, $gameId);
+                $game->lastInteractionDate = new \DateTime();
+                Doctrine::persistAndFlush($game);
                 if ($game->secondPlayer == null) {
                     return json_encode(["success" => true, "joined" => false]);
                 } else {
@@ -154,6 +174,11 @@ class AjaxResponder
                 $games = $gamesRepository->findAll();
                 $targetArray = [];
                 foreach($games as $game) {
+
+                    if (date_add($game->lastInteractionDate, date_interval_create_from_date_string("90 seconds")) < new \DateTime()) {
+                      // Ignore old games.
+                      continue;
+                    }
                     $targetArray[] = [
                         "id" => $game->id,
                         "firstPlayer" => $game->firstPlayer->email,
@@ -169,6 +194,7 @@ class AjaxResponder
                 $deckname = $data["deck"];
                 $game = new Game();
                 $game->firstPlayer = $this->session->getUser();
+                $game->lastInteractionDate = new \DateTime('now');
                 $moveDeck = new Move();
                 $moveDeck->game = $game;
                 $moveDeck->moveType = SharedConstants::MOVE_DECK_NAME;

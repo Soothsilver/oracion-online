@@ -34,6 +34,21 @@ class Ability {
             session.enqueuePrioritized(QDrawCard(source.controller, false, true));
         }
     }
+    modifySelfModifiers(self, modifiers) {
+        if (this.id == "Ferocity") {
+            modifiers.push(new Modifier(MODIFIER_FEROCITY, "img/ferocity.png","Zuřivost " + this.value, this.value));
+        }
+    }
+    modifySelfAgainstEnemyModifiers(self, enemy, modifiers) {
+        if (this.id == "AgainstEvilD6" && enemy.evil) {
+            for (var i =0;i<this.value;i++) {
+                modifiers.push(ModifierD6("Bonus proti zlu"));
+            }
+        }
+    }
+    modifyEnemyModifiers(self, enemy, modifiers) {
+
+    }
     /*
     CREATURES:
     ----------------
@@ -47,14 +62,14 @@ class Ability {
     EnemyBestIsZero: Počítej, jako by na jedné ze soupeřových nejsilnějších kostek padlo 0
     AgainstEvilD6(x)
     AgainstEvilPlus3 <-- on tool
-    Undying Pokud prohraje, Černokněžník se nepočítá jako mrtvý.
+     PrerostlyPavouk: Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.
+     Rozkopu: Síla bytosti se mění na 10. Žádné jeho bonusy či kostky nefungují.
+   * Undying Pokud prohraje, Černokněžník se nepočítá jako mrtvý.
 
     OnlyWaterAndPsychic: statni vlajka
     OnlyLeafAndFire
 
    * Lupic: Pokud vyhraješ souboj, lízni si 2 karty.
-    PrerostlyPavouk: Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.
-    Rozkopu: Síla bytosti se mění na 10. Žádné jeho bonusy či kostky nefungují.
    * ZabitASnist:  Pokud vyhraješ tento souboj, lízni si 4 karty.
 
 

@@ -197,6 +197,18 @@ Session.prototype.updateModifiers = function (player) {
         elements.append(element);
     }
 };
+Session.prototype.calculateVictoryChance = function(yours, his) {
+    var repetitionCount = 5000;
+    var successes = 0;
+    for (var i = 0; i < repetitionCount; i++) {
+        var yourNum = yours.rollTwister(visualTwister);
+        var hisNum = his.rollTwister(visualTwister);
+        if (yourNum > hisNum) {
+            successes++;
+        }
+    }
+    return Math.round(100 * successes / repetitionCount);
+};
 Session.prototype.stateBased = function () {
     for (var i =0 ; i < this.you.cards.length; i++) {
         var crd = this.you.cards[i];
@@ -209,13 +221,22 @@ Session.prototype.stateBased = function () {
 
     $("#yourModifiers").html("");
     $("#enemyModifiers").html("");
-    if (this.you.activeCreature != null) {
-        this.updateModifiers(this.you);
+    $("#victoryChance").html("");
+    var creaturesWhoHaveModifiers = 0;
+    if (this.phase == PHASE_MAIN) {
+        if (this.you.activeCreature != null) {
+            this.updateModifiers(this.you);
+            creaturesWhoHaveModifiers++;
+        }
+        if (this.enemy.activeCreature != null && !this.enemy.activeCreature.facedown) {
+            this.updateModifiers(this.enemy);
+            creaturesWhoHaveModifiers++;
+        }
+        if (creaturesWhoHaveModifiers == 2) {
+            console.log("calc");
+            $("#victoryChance").html("Tvoje šance na výhru je zhruba <b>" + this.calculateVictoryChance(this.you.activeCreature, this.enemy.activeCreature) + "%</b>.");
+        }
     }
-    if (this.enemy.activeCreature != null ) {
-        this.updateModifiers(this.enemy);
-    }
-
 };
 Session.prototype.checkQueue = function () {
    this.stateBased(); 

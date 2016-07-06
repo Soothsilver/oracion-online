@@ -15,6 +15,16 @@ class Modifier {
                 return parseInt(this.value);
             case MODIFIER_DICE:
                 return twister.between(1, this.value + 1);
+            case MODIFIER_FEROCITY:
+                var ferocityResult = 0;
+                while (true) {
+                    var dieRoll = twister.between(1, Number.parseInt(this.value) + 1);
+                    ferocityResult = ferocityResult + dieRoll;
+                    if (dieRoll == 1 || (dieRoll == 2 && this.value == 10)) {
+                        break;
+                    }
+                }
+                return ferocityResult;
             default: 
                 console.log("Cannot roll.");
                 return -5000;

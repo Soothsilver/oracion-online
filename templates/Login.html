@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <title>Oracion Online</title>
@@ -16,7 +16,7 @@
         <div class="logintext">
             <b>Oracion Online</b> je počítačová verze karetní hry Oracion, ve které můžete hrát proti hráčům přes internet nebo proti počítači.
             <br><br>
-            Ve hře <i>Oracion</i> je vaším úkolem získat čtyři body poražením soupěřových bytostí. Na začátku hry si vyberete balíček a pak v každém kole vyložíte z ruky na stůl jednu bytost. Každá bytost má určitou útočnou sílu vyjádřenou v počtu kostek (tedy náhodnou). Jakmile oba hráči vyloží svoji bytost, hodí se kostkami a bytost, která má menší sílu, je odložena a majitel vítězné bytostí získá bod. Podrobná pravidla se zobrazí ve formě tipů přímo během hry.
+            Ve hře <i>Oracion</i> je vaším úkolem získat čtyři body poražením soupěřových bytostí. Na začátku hry si vyberete balíček a pak v každém kole vyložíte z ruky na stůl jednu bytost. Každá bytost má určitou útočnou sílu vyjádřenou v počtu kostek (tedy náhodnou). Jakmile oba hráči vyloží svoji bytost, hodí se kostkami a bytost, která má menší sílu, je odložena a majitel vítězné bytostí získá bod. <a href="download/pravidla-oracion.pdf" target="_blank">Podrobná pravidla si můžete přečíst také zde.</a>
         </div>
         [[ERROR-MESSAGES]]
         <hr>
@@ -42,8 +42,19 @@
                 <div class="formfield"><input type="submit" value="Založit nového uživatele"></div>
             </form>
         </div>
+        <hr>
+        <div class="form">
+            <div class="formtitle">Hrát cvičnou hru proti umělé inteligenci</div>
+            <br>
+            <form action="?" method="post" class="validator">
+                <div class="logintext">
+                    V této hře budete hrát proti počítačovému protivníkovi s náhodnými balíčky.
+                </div>
+                <div class="formfield"><input type="button" onclick="window.location.href='?game=AI&deck=random';" value="Hrát proti umělé inteligenci"></div>
+            </form>
+        </div>
         <div class="logintext">
-            Hra <i>Oracion Online</i> byla vytvořena na jaře 2016. Pro použití potřebujete účet Google.
+            Hra <i>Oracion Online</i> byla vytvořena na jaře 2016. Pro použití, i v případě
 
             Oracion byla karetní hra pro vlčata 7. skautského oddílu Karibu v letech 2009 až 2011. Za úspěchy na schůzkách mohla vlčata získávat nové karty, se kterými vylepšovala svoje balíčky.
         </div>

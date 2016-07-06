@@ -2,6 +2,13 @@ body {
     background-color: #bed7ff;
 }
 
+.startButton {
+    width: 500px;
+    height: 50px;
+}
+.lobbyscreen {
+    padding: 10px;
+}
 
 .screen {
     margin-top: 50px;

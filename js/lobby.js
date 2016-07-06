@@ -1,15 +1,13 @@
 $(document).ready(function() {
-    /*
-   setInterval(function() {
-       heartbeatSend();
-   }, 1000);
-    */
+
+
+
     setInterval(function() {
         statisticsSend();
-    }, 10000);
+    }, 4000);
     setInterval(function () {
         requestGamesList();
-    }, 5000);
+    }, 4000);
     /*
     heartbeatSend();
     */
@@ -23,15 +21,16 @@ function updateGamesList(newList) {
     var selectedOption = $("#games").val();
     list.empty();
     $.each(newList, function (key,value) {
-        var gameRepresentation = "Hra " + value.id + " (" + value.firstPlayer + " vs. " + value.secondPlayer + ", status " + value.status + ")";
+        if (value.status == 1) {
+            var gameRepresentation = "Hra " + value.id + " (" + value.firstPlayer + ", čeká na hráče)";
+            var newElement = $("<option></option>")
+                .attr("value", value.id).text(gameRepresentation);
 
-       var newElement = $("<option></option>")
-           .attr("value", value.id).text(gameRepresentation);
-
-        if (value.id == selectedOption) {
-            newElement.attr("selected", "selected");
+            if (value.id == selectedOption) {
+                newElement.attr("selected", "selected");
+            }
+            list.append(newElement);
         }
-        list.append(newElement);
     });
 }
 var requestGamesList = function () {
@@ -88,7 +87,6 @@ var requestCreateGame = function () {
             "deck": $("#deck").val()
         },
         success: function(msg) {
-            console.log("Game created.");
             console.log(msg);
             if (msg) {
                 window.location.href = "?waitForGame=" + msg.id;
@@ -97,7 +95,8 @@ var requestCreateGame = function () {
             }
         },
         error: function (msg) {
-            console.log("Game not created.");
+            console.log(msg);
+            $("#buttonCreateGame").val("Hru se nepodařilo vytvořit. Pokusit se znovu?");
         }
     });
 };
@@ -122,6 +121,7 @@ var statisticsSend = function() {
         url: "?ajaxAction=getStatistics",
         dataType : "json",
         success: function(msg) {
+            console.log(msg);
             // Parse statistics
             $("#gameCount").text(msg.gamesPlayed);
             $("#gameVictories").text(msg.gamesWon);
@@ -132,26 +132,3 @@ var statisticsSend = function() {
 function logoutTimeouted() {
    // window.location.reload();
 }
-var heartbeatSend = function() {
-    $.ajax({
-        type: "POST",
-        data : {
-            "ajaxAction" : "heartbeat"
-        },
-        dataType : "json",
-        success: function (msg) {
-            console.log(msg);
-            if (!msg) {
-                logoutTimeouted();
-            } else {
-                if (msg.queued) {
-                    $("#enterQueueForm").hide();
-                    $("#inQueueForm").show();
-                } else {
-                    $("#enterQueueForm").show();
-                    $("#inQueueForm").hide();
-                }
-            }
-        }
-    })
-};
