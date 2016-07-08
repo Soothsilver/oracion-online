@@ -38,15 +38,48 @@ class Ability {
         if (this.id == "Ferocity") {
             modifiers.push(new Modifier(MODIFIER_FEROCITY, "img/ferocity.png","Zuřivost " + this.value, this.value));
         }
+        if (this.id == "ListovaBritvaBonus") {
+            modifiers.push(ModifierD6("Listová břitva"));
+            modifiers.push(ModifierD6("Listová břitva"));
+        }
     }
+
+    /**
+     *
+     * @param self
+     * @param {Creature} enemy
+     * @param modifiers
+     */
     modifySelfAgainstEnemyModifiers(self, enemy, modifiers) {
-        if (this.id == "AgainstEvilD6" && enemy.evil) {
-            for (var i =0;i<this.value;i++) {
-                modifiers.push(ModifierD6("Bonus proti zlu"));
+        if (enemy.evil == "true" || enemy.color == "Darkness") {
+            if (this.id == "AgainstEvilD6") {
+                for (var i = 0; i < this.value; i++) {
+                    modifiers.push(ModifierD6("Bonus proti zlu"));
+                }
+            }
+            if (this.id == "AgainstEvilPlus3") {
+                modifiers.push(new Modifier(MODIFIER_FLAT, "img/dPlus.png", "Meč: bonus proti zlu", 3));
             }
         }
     }
+
+    /**
+     *
+     * @param self
+     * @param enemy
+     * @param {Modifier[]} modifiers
+     */
     modifyEnemyModifiers(self, enemy, modifiers) {
+        if (this.id == "EnemyBestIsZero") {
+            for (var i = 0; i < modifiers.length; i++) {
+                if (modifiers[i].kind == MODIFIER_DICE) {
+                    modifiers[i].kind = MODIFIER_FLAT;
+                    modifiers[i].value = 0;
+                    modifiers[i].name = "Zrušeno soupeřem";
+                    break;
+                }
+            }
+        }
 
     }
     /*
@@ -54,20 +87,20 @@ class Ability {
     ----------------
     
     ID's:
-    Ferocity(6/10)
+  *  Ferocity(6/10)
   *  Empowerment(x)
   *  SingleTurn
   *  VictoryHeals: Oživení (Pokud vyhraješ, počet tvých vyřazených bytostí se sníží o 1.)
-    MagicSuppression
-    EnemyBestIsZero: Počítej, jako by na jedné ze soupeřových nejsilnějších kostek padlo 0
-    AgainstEvilD6(x)
-    AgainstEvilPlus3 <-- on tool
-     PrerostlyPavouk: Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.
-     Rozkopu: Síla bytosti se mění na 10. Žádné jeho bonusy či kostky nefungují.
-   * Undying Pokud prohraje, Černokněžník se nepočítá jako mrtvý.
+  *  MagicSuppression
+  *  EnemyBestIsZero: Počítej, jako by na jedné ze soupeřových nejsilnějších kostek padlo 0
+  *  AgainstEvilD6(x)
+  *  AgainstEvilPlus3 <-- on tool
+  *   PrerostlyPavouk: Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.
+  *  Rozkopu: Síla bytosti se mění na 10. Žádné jeho bonusy či kostky nefungují.
+  *  Undying Pokud prohraje, Černokněžník se nepočítá jako mrtvý.
 
-    OnlyWaterAndPsychic: statni vlajka
-    OnlyLeafAndFire
+  *  OnlyWaterAndPsychic: statni vlajka
+  *  OnlyLeafAndFire
 
    * Lupic: Pokud vyhraješ souboj, lízni si 2 karty.
    * ZabitASnist:  Pokud vyhraješ tento souboj, lízni si 4 karty.

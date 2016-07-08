@@ -23,9 +23,13 @@ var loadCardlist = function (thenWhat) {
                 var evil = cardXml.getAttribute("evil");
                 var creatureTags = (cardXml.getElementsByTagName("creature"));
                 var toolTags = (cardXml.getElementsByTagName("tool"));
+                var actionTags = (cardXml.getElementsByTagName("action"));
                 var abilityTags = (cardXml.getElementsByTagName("ability"));
                 var abilities = [];
+                var addToSelf = [];
+                var addToEnemy = [];
                 var inherentModifiers = [];
+                var spellAbility = null;
                 var cardType = "creature";
                 switch (cardXml.getAttribute("color")) {
                     case "Tool": cardType = "tool"; break;
@@ -52,13 +56,40 @@ var loadCardlist = function (thenWhat) {
                         toolTags[0].getAttribute("d10"),
                         toolTags[0].getAttribute("d6"),
                         toolTags[0].getAttribute("dPlus"));
+                } 
+                else if (actionTags.length > 0) {
+                    var actionTag = actionTags[0];
+                    spellAbility = actionTag.getAttribute("spellability");
+                    var addToSelfTag = actionTag.getElementsByTagName("addToSelf") ? actionTag.getElementsByTagName("addToSelf")[0] : null;
+                    var addToEnemyTag = actionTag.getElementsByTagName("addToEnemy") ? actionTag.getElementsByTagName("addToEnemy")[0] : null;
+                    if (addToSelfTag != null) {
+                        var abilityTagsSelf = addToSelfTag.getElementsByTagName("ability");
+                        for (var j = 0; j < abilityTagsSelf.length; j++) {
+                            var abilityTag = abilityTagsSelf[j];
+                            var abilityId = abilityTag.getAttribute("id");
+                            var abilityValue = abilityTag.getAttribute("value");
+                            var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                            addToSelf.push(new Ability(abilityId, abilityValue, isMagic));
+                        }
+                    }
+                    if (addToEnemyTag != null) {
+                        var abilityTagsEnemy = addToEnemyTag.getElementsByTagName("ability");
+                        for (var j = 0; j < abilityTagsEnemy.length; j++) {
+                            var abilityTag = abilityTagsEnemy[j];
+                            var abilityId = abilityTag.getAttribute("id");
+                            var abilityValue = abilityTag.getAttribute("value");
+                            var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                            addToEnemy.push(new Ability(abilityId, abilityValue, isMagic));
+                        }
+                    }
                 }
 
                 for (var j = 0; j < abilityTags.length; j++) {
                     var abilityTag = abilityTags[j];
                     var abilityId = abilityTag.getAttribute("id");
                     var abilityValue = abilityTag.getAttribute("value");
-                    abilities.push(new Ability(abilityId, abilityValue));
+                    var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                    abilities.push(new Ability(abilityId, abilityValue, isMagic));
                 }
 
                 cardlist[name] = {
@@ -70,8 +101,11 @@ var loadCardlist = function (thenWhat) {
                     ex: ex,
                     evil: evil,
                     dice : dice,
+                    spellAbility: spellAbility,
                     inherentModifiers : inherentModifiers,
-                    abilities : abilities
+                    abilities : abilities,
+                    addToSelf : addToSelf,
+                    addToEnemy : addToEnemy,
                 };
             }
             log("Karty byly načteny.");
@@ -132,6 +166,9 @@ var createCard = function (description) {
             break;
         case "action":
             card = new Action(description.name,  description.color,  description.image);
+            card.spellAbility = description.spellAbility;
+            card.addToSelf = description.addToSelf;
+            card.addToEnemy = description.addToEnemy;
             break;
         default:
             console.log ("unknown type");

@@ -13,4 +13,14 @@ class Tool extends Card {
            zIndex: session.getLowZIndex()
         })
     }
+    hasAbility(abilityId) {
+
+        var abilities = this.inherentAbilities;
+        for (var i = 0; i < abilities.length; i++) {
+            if (abilities[i].id == abilityId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

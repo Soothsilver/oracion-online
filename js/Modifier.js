@@ -5,6 +5,9 @@ class Modifier {
         this.name = name;
         this.value = value;
     }
+    copy () {
+        return new Modifier(this.kind,  this.image,  this.name,  this.value);
+    }
 
     /**
      * @param  {MersenneTwister} twister

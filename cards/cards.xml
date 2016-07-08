@@ -122,12 +122,6 @@
     <creature ex="false" god="false" d20="0" d10="0" d6="0" dPlus="12" />
     <ability id="MagicSuppression" />
   </card>
-  <card name="Přerostlý pavouk" color="Leaf" image="Card_22_Přerostlý pavouk" evil="false" rarity="Uncommon" watermark="Junaria">
-    <flavor>Je velký. Fakt velký. Ani byste nechtěli uvěřit, jak je velký. Když si vynásobíte "obří", "fakt obrovský", a "monstrózní", tak zjistíte, jak přibližně Přerostlý pavouk vypadá.</flavor>
-    <rules>Kouzlo -- Pokud na některé soupeřově kostce padne více než 10, počítej, jako by na ní padlo jen 10.</rules>
-    <creature ex="false" god="false" d20="1" d10="0" d6="0" dPlus="0" />
-    <ability id="PrerostlyPavouk" isMagic="true" />
-  </card>
   <card name="Rozkopu!" color="Action" image="Card_23_Rozkopu!" evil="false" rarity="Rare" watermark="None">
     <flavor>Rozkopat věci je snadné.
       Složit je znovu dohromady je mnohem těžší.
@@ -248,6 +242,7 @@
     <flavor>Hlavním smyslem uzlovačky na schůzkách je naučit se na ní vázat uzly. To byste neřekli, jak je taková zkracovačka nebo takový ambulanťák užitečný.</flavor>
     <rules>Pokud vyhraješ souboj, lízni si dvě karty.</rules>
     <tool d20="0" d10="0" d6="0" dPlus="2" />
+    <ability id="Lupic" />
   </card>
   <card name="Meč" color="Tool" image="Card_42_Meč" evil="false" rarity="Common" watermark="Junaria">
     <flavor>Nechvalně známý mečový vrah Dargan měl tento recept:

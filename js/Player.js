@@ -111,6 +111,20 @@ Player.prototype.constructDeck = function () {
               card = getRandomCard(this.twister);
               tries = tries + 1;
           }
+      } else if (this.deckname == "advanced") {
+          card = getRandomCard(this.twister);
+          var tries = 0;
+          while ((card instanceof Creature) && (!card.ex) && (card.inherentAbilities.length == 0 || card.hasOwnAbility("Empowerment")) && tries < 20) {
+              card = getRandomCard(this.twister);
+              tries = tries + 1;
+          }
+      } else if (this.deckname == "basic") {
+          card = getRandomCard(this.twister);
+          var tries = 0;
+          while ((card instanceof Creature) && (card.color != "Leaf" && card.color != "Fire" && card.color != "Water") && tries < 20) {
+              card = getRandomCard(this.twister);
+              tries = tries + 1;
+          }
       } else {
           console.log("unknown deck name");
       }

@@ -114,9 +114,7 @@ Session.prototype.playCard = function (player, card) {
         card.moveToRectangle(player.getArenaRectangle(), false);
         this.canWeMoveToMainPhase();
 
-        if (!this.local && player.you) {
-            this.sendMove(new Move(null, true, MOVE_PLAY_CARD, { uniqueIdentifier: card.uniqueIdentifier }));
-        }
+
         this.checkQueue();
     } else if (card instanceof Tool) {
         card.attachSelfTo(player.activeCreature);
@@ -126,6 +124,21 @@ Session.prototype.playCard = function (player, card) {
         card.flip(true);
         player.discardPile.discard(card);
         log(player.getName()+ " použil akci " + card.toLink() + ".");
+        var enemy = player.you ? session.enemy : this.you;
+        card.execute(player.activeCreature, enemy.activeCreature);
+    } else if (card instanceof Creature) {
+        card.flip(true);
+        log(player.getName() + " povýšil svoji bytost na " + card.toLink() + ".");
+        card.moveToRectangle(player.getArenaRectangle(), false);
+        var oldActive = player.activeCreature;
+        player.activeCreature = card;
+        card.acquiredAbilities = oldActive.acquiredAbilities;
+        card.attachedCards = oldActive.attachedCards;
+        oldActive.attachedCards = [];
+        player.discardPile.discard(oldActive);
+    }
+    if (!this.local && player.you) {
+        this.sendMove(new Move(null, true, MOVE_PLAY_CARD, { uniqueIdentifier: card.uniqueIdentifier }));
     }
 };
 /**
@@ -233,7 +246,6 @@ Session.prototype.stateBased = function () {
             creaturesWhoHaveModifiers++;
         }
         if (creaturesWhoHaveModifiers == 2) {
-            console.log("calc");
             $("#victoryChance").html("Tvoje šance na výhru je zhruba <b>" + this.calculateVictoryChance(this.you.activeCreature, this.enemy.activeCreature) + "%</b>.");
         }
     }

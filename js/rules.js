@@ -32,11 +32,26 @@ var isPlayable = function (player, card) {
       }
   } else if (player.activeCreature != null && (player.activeCreature instanceof Creature) && player.session.phase == PHASE_MAIN) {
 
-     if ((card instanceof Tool) || (card instanceof Action)) {
+     if (card instanceof Action) {
+         
          return true;
      }
-      // TODO ex creatures
-      // TODO tool restrictions
+      if (card instanceof Tool) {
+          if (card.hasAbility("OnlyWaterAndPsychic")) {
+              return player.activeCreature.color == "Water" ||
+                      player.activeCreature.color == "Psychic";
+          }
+          if (card.hasAbility("OnlyLeafAndFire")) {
+              return player.activeCreature.color == "Leaf" ||
+                      player.activeCreature.color == "Fire";
+          }
+          return true;
+      }
+      if (card instanceof Creature) {
+          if (card.ex && !player.activeCreature.ex) {
+              return card.color == player.activeCreature.color;
+          }
+      }
      return false;
   } else {
       return false;

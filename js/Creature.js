@@ -8,6 +8,7 @@ class Creature extends Card {
         this.god = false;
         this.ex = false;
         this.inherentModifiers = [];
+        this.acquiredAbilities = [];
         /** @type Player */
         this.controller = null;
         /** @type Modifier[] */
@@ -16,13 +17,57 @@ class Creature extends Card {
         this.attachedCards = [];
     }
 
+    isSuppressed() {
+        var enemyCreature = this.controller.session.enemy.activeCreature == this ?
+            this.controller.session.you.activeCreature : this.controller.session.enemy.activeCreature;
+        if (enemyCreature != null) {
+            if ( enemyCreature.hasOwnAbility("MagicSuppression") ) return true;
+            for (var i = 0; i < this.attachedCards.length; i++) {
+                var tool = this.attachedCards[i];
+                for (var j = 0; j < tool.inherentAbilities.length; j++) {
+                    if (tool.inherentAbilities[j].id == "MagicSuppression") {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     /**
      *
      * @returns Ability[]
      */
     getAbilities() {
-        return [].concat(this.inherentAbilities);
+        var rAbilities = [].concat(this.inherentAbilities).concat(this.acquiredAbilities);
+
+        for (var i = 0; i < this.attachedCards.length; i++) {
+            var tool = this.attachedCards[i];
+            rAbilities = rAbilities.concat(tool.inherentAbilities);
+        }
+
+        var sAbilities = [];
+        if (this.isSuppressed()) {
+            for (var j = 0 ; j < rAbilities.length; j++) {
+                if (!rAbilities[j].isMagic) {
+                    sAbilities.push(rAbilities[j]);
+                }
+            }
+            return sAbilities;
+        } else {
+            return rAbilities;
+        }
     }
+    hasOwnAbility(abilityId) {
+
+        var abilities = this.inherentAbilities.concat(this.acquiredAbilities);
+        for (var i = 0; i < abilities.length; i++) {
+            if (abilities[i].id == abilityId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     hasAbility(abilityId) {
 
         var abilities = this.getAbilities();
@@ -77,14 +122,14 @@ class Creature extends Card {
         // Basic
         this.modifiers = [];
         for (var i = 0; i < this.inherentModifiers.length; i++) {
-            this.modifiers.push(this.inherentModifiers[i]);
+            this.modifiers.push(this.inherentModifiers[i].copy());
         }
 
         // Tools
         for ( i = 0; i < this.attachedCards.length; i++) {
             for (var j = 0; j < this.attachedCards[i].inherentModifiers.length; j++) {
                 this.attachedCards[i].inherentModifiers[j].name = this.attachedCards[i].name;
-                this.modifiers.push(this.attachedCards[i].inherentModifiers[j]);
+                this.modifiers.push(this.attachedCards[i].inherentModifiers[j].copy());
             }
         }
 
@@ -117,12 +162,19 @@ class Creature extends Card {
 
             var friendlyAbilities = this.getAbilities();
             for ( i = 0; i < friendlyAbilities.length; i++) {
-                friendlyAbilities[i].modifySelfAgainstEnemyModifiers(this, this.modifiers);
+                friendlyAbilities[i].modifySelfAgainstEnemyModifiers(this, enemyCreature, this.modifiers);
             }
             // Abilities
             var enemyAbilities = enemyCreature.getAbilities();
             for ( i = 0; i < enemyAbilities.length; i++) {
                 enemyAbilities[i].modifyEnemyModifiers(enemyCreature, this, this.modifiers);
+            }
+        }
+        // Final modifications
+        for (var i = 0; i < abilities.length; i++) {
+            if (abilities[i].id == "Rozkopu") {
+                this.modifiers.length = 0;
+                this.modifiers.push(new Modifier(MODIFIER_FLAT, "img/dPlus.png", "Rozkopán (+10)", 10));
             }
         }
     }

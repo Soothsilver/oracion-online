@@ -37,6 +37,12 @@ class Card {
     getAbilities() {
         return [];
     }
+    hasAbility(abilityId) {
+        return false;
+    }
+    hasOwnAbility(abilityId) {
+        return false;
+    }
 
     toLink() {
         return "<b><a href='javascript:void();' data-card='" + this.uniqueIdentifier +"' class='autocard'>" + this.name + "</a></b>";
@@ -67,6 +73,16 @@ class Card {
            }
             capturedThis.element.removeClass("hoverplayable");
         });
+        this.element.on("dragstart", function (event) {
+           if (isPlayable(capturedThis.controller, capturedThis)) {
+               event.originalEvent.dataTransfer.setData("application/card", capturedThis.uniqueIdentifier);
+               event.originalEvent.dataTransfer.dropEffect = "move";
+           }  else {
+               console.log("dragstart not");
+               event.originalEvent.preventDefault();
+           }
+        });
+        this.element.attr("draggable", true);
         this.element.click(function() {
            session.click(capturedThis);
         });
@@ -95,10 +111,11 @@ class Card {
             height: rectangle.height
         }, 
             {
-                duration: quick ? 100 : 100,
+                duration: quick ? 100 : slowCardMovementTime,
                 complete: function () {
                     session.animationCompleted();
                 }
             });
     }
 }
+var slowCardMovementTime = 500;

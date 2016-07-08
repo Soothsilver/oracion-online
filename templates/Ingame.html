@@ -10,6 +10,7 @@
     <script src="/js/mersenne-twister.js"></script>
     <script src="/js/diceroller.js"></script>
     <script src="/js/extensions.js"></script>
+    <script src="/js/dragging.js"></script>
     <script src="/js/rules.js"></script>
     <script src="/js/Ability.js"></script>
     <script src="/js/Modifier.js"></script>
@@ -45,6 +46,7 @@
     <div id="yourHand" class="zone">Tvoje ruka</div>
     <div id="enemyHand" class="zone">Soupeřova ruka</div>
     <div id="yourArena" class="zone">Tvoje aktivní bytost</div>
+    <div id="yourArenaDropZone" class="dropzone" ondragover="dragover_handler(event);" ondrop="drop_handler(event);"></div>
     <div id="yourModifiers" class="modifiers"></div>
     <div id="enemyArena" class="zone">Soupeřova aktivní bytost</div>
     <div id="enemyModifiers" class="modifiers"></div>

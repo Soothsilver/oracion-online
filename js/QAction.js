@@ -166,7 +166,7 @@ var QCombat = function () {
       session.you.empowerment = 0;
       session.enemy.empowerment = 0;
       session.you.activeCreature.postroll(result);
-      session.enemy.activeCreature.postroll(result == "win" ? "loss" : "win");
+      session.enemy.activeCreature.postroll(result == "loss" ? "win" : "loss");
 
       setMiddleBar("Souboj se vyhodnocuje...");
 

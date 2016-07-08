@@ -6,6 +6,13 @@ $(document).ready(function() {
                session.enemy.cards[i].flip(true);
            }
         });
+        $(document).bind('keydown', 'ctrl+shift+f', function () {
+            if (slowCardMovementTime < 500) {
+                slowCardMovementTime = 500;
+            } else {
+                slowCardMovementTime = 100;
+            }
+        });
         if (session.gameId == "0") {
             incomingMove(new Move(0, true, MOVE_LOAD_DECK, $("#deck").val()));
             incomingMove(new Move(0, false, MOVE_LOAD_DECK, $("#deck").val()));
@@ -43,7 +50,6 @@ var setMiddleBar = function (text) {
     $("#middlebar").html(text);
 };
 var incomingMove = function (move) {
-    log("<b>Incoming: </b>" + move.type + ": " + JSON.stringify(move.argument));
     session.incomingMove(move);
     if (move.id > session.lastMoveId) {
         session.lastMoveId  = move.id;
