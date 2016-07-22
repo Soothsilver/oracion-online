@@ -5,6 +5,10 @@ use OracionOnline\Views\LobbyView;
 use OracionOnline\Views\LoginView;
 use OracionOnline\Views\WaitingView;
 
+/**
+ * This is the primary front controller class instantiated and invoked by index.php. This class handles all requests, AJAX or traditional.
+ * @package OracionOnline
+ */
 class FrontController
 {
     /**
@@ -23,11 +27,16 @@ class FrontController
             if (isset($_GET["ajaxAction"]))
             {
                 $ajaxResponder = new AjaxResponder($this->session);
-                echo $ajaxResponder->invoke($_GET["ajaxAction"], $_GET);
+                $result = $ajaxResponder->invoke($_GET["ajaxAction"], $_GET);
             }
             else {
                 $ajaxResponder = new AjaxResponder($this->session);
-                echo $ajaxResponder->invoke($_POST["ajaxAction"], $_POST);
+                $result = $ajaxResponder->invoke($_POST["ajaxAction"], $_POST);
+            }
+            if ($result == false) {
+              echo "false";
+            } else {
+              echo $result;
             }
             return;
         }

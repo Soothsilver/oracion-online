@@ -1,3 +1,9 @@
+/**
+ * Causes the game to end.
+ *
+ * @param {string} kind How did the game end for the client? In victory, defeat, draw or desync? Use the ENDGAME_* constants.
+ * @param {string} reason Additional information to be displayed to the user.
+ */
 Session.prototype.endTheGame = function (kind, reason) {
     this.gameover = true;
     if (kind == ENDGAME_VICTORY) {
@@ -32,6 +38,10 @@ Session.prototype.endTheGame = function (kind, reason) {
     $("#endgame-panel").show();
 
 };
+/**
+ * Updates the numbers in the left-side statistics panel. Also tests whether the game should end because of the rules and if so,
+ * ends the game.
+ */
 var updateStatistics = function () {
     $("#yourDeaths").text(session.you.deaths);
     $("#enemyDeaths").text(session.enemy.deaths);
@@ -48,7 +58,23 @@ var updateStatistics = function () {
     }
 };
 
+/**
+ * The game ended with victory for this client.
+ * @type {string}
+ */
 const ENDGAME_VICTORY = "victory";
+/**
+ * The game ended in defeat for this client.
+ * @type {string}
+ */
 const ENDGAME_DEFEAT = "defeat";
+/**
+ * The game ended in a tie.
+ * @type {string}
+ */
 const ENDGAME_DRAW = "draw";
+/**
+ * The game ended because of a synchronization error, probably because the server was momentarily (or permanently) offline.
+ * @type {string}
+ */
 const ENDGAME_DESYNC = "desync";

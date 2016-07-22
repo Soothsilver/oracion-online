@@ -4,10 +4,13 @@ use OracionOnline\Doctrine;
 use OracionOnline\Models\User;
 use OracionOnline\Session;
 
+/**
+ * This view represents the login screen where players may login, register or play a game against the AI locally.
+ * @package OracionOnline\Views
+ */
 class LoginView implements IView
 {
     private $errorMessage = "";
-    private $loginSuccessful = false;
 
     public function invoke(Session $session) : string
     {
@@ -31,29 +34,31 @@ class LoginView implements IView
 
     private function login(Session $session, string $name, string $password) : bool
     {
-        /**
-         * @var  $user \OracionOnline\Models\User
-         */
-        $user = Doctrine::getEntityManager()->getRepository(Doctrine::USER)->findOneBy([
-           'email' => $name
-        ]);
-        if ($user == null) {
+        try {
+          /**
+           * @var  $user \OracionOnline\Models\User
+           */
+          $user = Doctrine::getEntityManager()->getRepository(Doctrine::USER)->findOneBy([
+            'email' => $name
+          ]);
+          if ($user == null) {
             $this->errorMessage = "Uživatel s touto e-mailovou adresou neexistuje.";
             return false;
-        }
-        if (password_verify($password, $user->hashedPassword))
-        {
+          }
+          if (password_verify($password, $user->hashedPassword)) {
             $session->loginComplete($user->id, $name);
             $user->lastHeartbeat = new \DateTime();
             $user->queued = false;
             Doctrine::getEntityManager()->persist($user);
             Doctrine::getEntityManager()->flush($user);
             return true;
-        }
-        else
-        {
+          } else {
             $this->errorMessage = "Tento uživatelský účet existuje, ale zadali jste nesprávné heslo.";
             return false;
+          }
+        } catch (\Exception $ex) {
+          $this->errorMessage = "Nepodařilo se připojit k databázi.";
+          return false;
         }
     }
     private function performLoginAction(Session $session) : bool

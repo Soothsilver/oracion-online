@@ -1,15 +1,39 @@
+/**
+ * Represents an "action card" which is played from hand, performs its effect and is discarded.
+ */
 class Action extends Card {
     constructor(name, color, image) {
         super(name, color,  image);
+        /**
+         * The spell ability this card has, if any.
+         * @type {string}
+         */
         this.spellAbility = null;
+        /**
+         * Abilities which the action grants to its controller's active creature.
+         * @type {Ability[]}
+         */
         this.addToSelf = [];
+        /**
+         * Negative abilities which the action inflicts upon the opponent's active creature.
+         * @type {Ability[]}
+         */
         this.addToEnemy = [];
     }
 
     /**
-     * 
-     * @param {Creature} yours
-     * @param {Creature} his
+     * Performs the effect of this action.
+     * @param {Creature} yours The controller's active creature.
+     * @param {Creature} his The opponent's active creature.
+     *
+     * The following spell abilities exist:
+        Liznout:  Lízni si dvě karty.
+        Soptik: Oživení (Počet tvých vyřazených bytostí se sníží o 1.)
+        ListovaBritva: Kouzlo -- lízni si kartu a ukaž ji soupeři. Pokud je to bytost, máš o 2 šestistěnné kostky navíc.
+
+     *
+     * Other action card effects are handled via granting or inflicting abilities upon creatures. It is an error to add an ability
+     * to an Action card but such may happen in a corner-case scenario. Javascript should be able to handle it with only notice-level errors.
      */
     execute(yours, his) {
         console.log("Executing action");
@@ -36,11 +60,4 @@ class Action extends Card {
             }
         }
     }
-        /*
-         SPELLS:
-
-         Liznout:  Lízni si dvě karty.
-         Soptik: Oživení (Počet tvých vyřazených bytostí se sníží o 1.)
-         ListovaBritva: Kouzlo -- lízni si kartu a ukaž ji soupeři. Pokud je to bytost, máš o 2 šestistěnné kostky navíc.
-         */
 } 

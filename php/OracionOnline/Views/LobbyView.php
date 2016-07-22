@@ -2,6 +2,11 @@
 namespace OracionOnline\Views;
 use OracionOnline\Session;
 
+/**
+ * This view represents the lobby where players choose their decks and create or join games.
+ *
+ * @package OracionOnline\Views
+ */
 class LobbyView implements IView
 {
 

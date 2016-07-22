@@ -51,7 +51,7 @@ var requestPlayAI = function () {
 var requestJoinGame = function () {
     var selectedOption = $("#games").val();
     if (!selectedOption) {
-        alert("Nejprve musíte vybrat hru.");
+        $("#buttonJoinGame").val("Nejprve musíte vybrat hru. Zkusit znovu?");
         return;
     }
     $("#buttonJoinGame").val("Připojuji se ke hře...");
@@ -69,7 +69,7 @@ var requestJoinGame = function () {
             if (msg.success) {
                 window.location.href = "?game=" + selectedOption;
             } else {
-                $("#buttonJoinGame").val("Ke hře se nepodařilo připojit (" + msg.reason + "). Zkusit znovu?");
+                $("#buttonJoinGame").val("Ke hře se nepodařilo připojit (databáze offline?). Zkusit znovu?");
             }
         },
         error: function (msg) {

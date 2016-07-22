@@ -166,9 +166,20 @@ Session.prototype.launchSend = function () {
             "moveArgument": JSON.stringify(move.argument)
         },
         success: function (msg) {
-            console.log("Move sent.");
-            theSession.sendingInProgress = false;
-            theSession.launchSend();
+            if (msg && msg != "false") {
+                console.log("Move sent.");
+                console.log("Move was:");
+                console.log(move);
+                theSession.sendingInProgress = false;
+                theSession.launchSend();
+            } else {
+                console.log("Move failed to send. We are now in desync.");
+                console.log("Move was:");
+                console.log(move);
+                console.log("Reason is because reply was false, probably due to database deconnection: ");
+                console.log(msg);
+                theSession.endTheGame(ENDGAME_DESYNC, "Nepodařilo se odeslat naši akci, čímž byla způsobena desynchronizace. Pravděpodobná příčina je, že se nepodařilo připojit k databázi." )
+            }
         },
         error: function (msg) {
             console.log("Move failed to send. We are now in desync.");

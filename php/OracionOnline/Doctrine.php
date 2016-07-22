@@ -5,9 +5,12 @@ namespace OracionOnline;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Katzgrau;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
 use Doctrine\ORM\Tools\Setup;
 
+/**
+ * Handles communication with the database
+ * @package OracionOnline
+ */
 class Doctrine
 {
     const USER = "\\OracionOnline\\Models\\User";
@@ -17,7 +20,6 @@ class Doctrine
      * @var EntityManager
      */
     private static $entityManager;
-    private static $debug;
     public static function getEntityManager() : EntityManager
     {
         if (self::$entityManager == null) {
@@ -29,17 +31,17 @@ class Doctrine
     public static function Bootstrap()
     {
         $isDevMode = true;
-        $paths = array("php/OracionOnline/Models");
+        $paths = ["php/OracionOnline/Models"];
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $config->setProxyDir(__DIR__ . "/Proxies");
         $config->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_NEVER);
-        $conn = array(
+        $conn = [
           'driver' => 'mysqli',
           'user'   => 'petr',
           'host' => 'localhost',
           'password'   => 'UnsafeDataPassword',
           'dbname' => 'oracion'
-        );
+        ];
         Doctrine::$entityManager = EntityManager::create($conn, $config);
     }
 

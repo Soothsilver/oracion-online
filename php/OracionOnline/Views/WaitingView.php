@@ -2,6 +2,10 @@
 namespace OracionOnline\Views;
 use OracionOnline\Session;
 
+/**
+ * This view represents the screen where the host player waits for another player to join his or her game.
+ * @package OracionOnline\Views
+ */
 class WaitingView implements IView
 {
     private $id;

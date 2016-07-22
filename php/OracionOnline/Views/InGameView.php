@@ -2,6 +2,10 @@
 namespace OracionOnline\Views;
 use OracionOnline\Session;
 
+/**
+ * This view represents the in-game screen where two players play a game against each other.
+ * @package OracionOnline\Views
+ */
 class InGameView implements IView
 {
     private $id;
