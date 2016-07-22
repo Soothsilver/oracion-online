@@ -1,3 +1,6 @@
+/**
+ * An on-screen rectangle.
+ */
 class Rectangle {
     constructor(x,y,width,height) {
         this.x = x;
@@ -7,6 +10,7 @@ class Rectangle {
     }
 
     /**
+     * Determines if this rectangle has the same coordinates and dimensions as another rectangle.
      * @param {Rectangle} other
      */
     equals(other) {

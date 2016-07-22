@@ -1,10 +1,19 @@
+/**
+ * Represents a "tool card" that can be attached to a creature to boost its power.
+ */
 class Tool extends Card {
-    constructor(name, color, image, dice) {
+    constructor(name, color, image) {
         super(name, color,  image);
-        this.dice = dice;
-        /** @type Modifier[] */
+        /**
+         * Modifiers this tool adds to its creature.
+         *  @type Modifier[] */
         this.inherentModifiers = [];
     }
+
+    /**
+     * Attaches this tool to a creature.
+     * @param {Creature} activeCreature
+     */
     attachSelfTo(activeCreature) {
         activeCreature.attachedCards.push(this);
         var index = activeCreature.attachedCards.indexOf(this);
@@ -13,6 +22,12 @@ class Tool extends Card {
            zIndex: session.getLowZIndex()
         })
     }
+
+    /**
+     * Determines whether this tool has a specific ability.
+     * @param {string} abilityId
+     * @returns {boolean}
+     */
     hasAbility(abilityId) {
 
         var abilities = this.inherentAbilities;

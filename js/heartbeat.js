@@ -1,3 +1,6 @@
+/**
+ * Informs the server via an AJAX call that this client is still connected to the application and still in the lobby.
+ */
 var heartbeatSend = function() {
     $.ajax({
         type: "POST",

@@ -1,27 +1,26 @@
+// This file is loaded only in the lobby view.
 $(document).ready(function() {
-
-
-
     setInterval(function() {
         statisticsSend();
     }, 4000);
     setInterval(function () {
         requestGamesList();
     }, 4000);
-    /*
-    heartbeatSend();
-    */
     statisticsSend();
     requestGamesList();
-    $("#inQueueForm").hide();
 });
-var gamesList = null;
+
+/**
+ * Updates the games listbox with new games from the server.
+ * @param newList
+ */
 function updateGamesList(newList) {
     var list = $("#games");
     var selectedOption = $("#games").val();
     list.empty();
     $.each(newList, function (key,value) {
         if (value.status == 1) {
+            //noinspection JSUnresolvedVariable
             var gameRepresentation = "Hra " + value.id + " (" + value.firstPlayer + ", čeká na hráče)";
             var newElement = $("<option></option>")
                 .attr("value", value.id).text(gameRepresentation);
@@ -33,6 +32,9 @@ function updateGamesList(newList) {
         }
     });
 }
+/**
+ * Sends an AJAX request to obtain new games list from the server and updates the listbox with those games.
+ */
 var requestGamesList = function () {
     $.ajax({
         type: "GET",
@@ -45,9 +47,15 @@ var requestGamesList = function () {
         }
     });
 };
+/**
+ * Redirects the client to the ingame screen in order to play locally against an AI.
+ */
 var requestPlayAI = function () {
     window.location.href = "?game=AI&deck=" + $("#deck").val();
 };
+/**
+ * Sends an AJAX request to join an existing game. If successful, redirects the player to the ingame screen.
+ */
 var requestJoinGame = function () {
     var selectedOption = $("#games").val();
     if (!selectedOption) {
@@ -77,6 +85,9 @@ var requestJoinGame = function () {
         }
     });
 };
+/**
+ * Sends an AJAX request to create a new game and redirects the player to the waiting screen until another player joins.
+ */
 var requestCreateGame = function () {
     $("#buttonCreateGame").val("Zakládám hru...");
     $.ajax({
@@ -100,6 +111,9 @@ var requestCreateGame = function () {
         }
     });
 };
+/**
+ * Sends an AJAX request to destroy the session and moves the player back to the login screen.
+ */
 var requestLogout = function() {
     $.ajax({
         type: "POST",
@@ -115,6 +129,10 @@ var requestLogout = function() {
         }
     })
 };
+/**
+ * Sends an AJAX request to get some information about the player and the number of logged-in users and displays the results
+ * on the screen.
+ */
 var statisticsSend = function() {
     $.ajax({
         type: "GET",
@@ -123,12 +141,12 @@ var statisticsSend = function() {
         success: function(msg) {
             console.log(msg);
             // Parse statistics
+            //noinspection JSUnresolvedVariable
             $("#gameCount").text(msg.gamesPlayed);
+            //noinspection JSUnresolvedVariable
             $("#gameVictories").text(msg.gamesWon);
+            //noinspection JSUnresolvedVariable
             $("#numOnline").text(msg.onlineCount);
         }
     })
 };
-function logoutTimeouted() {
-   // window.location.reload();
-}

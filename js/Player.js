@@ -1,17 +1,41 @@
+/**
+ * Represents one of the two players.
+ */
 class Player {
     constructor(you, deckname, session) {
+        /**
+         * The name of this player's deck, used to create the deck.
+         * @type string
+         */
         this.deckname = deckname;
-        /** @type Session */
+        /**
+         * The duel this player participates in.
+         * @type Session */
         this.session = session;
-        /** @type MersenneTwister */
+        /**
+         * The mersenne twister initialized with this player's random seed.
+         * @type MersenneTwister */
         this.twister = null;
         /** @type Deck */
         this.deck = new Deck(you, []);
         /** @type Hand */
         this.hand = new Hand(you, []);
+        /** @type DiscardPile */
         this.discardPile = new DiscardPile(you, []);
+        /**
+         * How many creatures must this player lose before he loses
+         * @type {number}
+         */
         this.deathsToLose = 4;
+        /**
+         * Whether this player is the client.
+         * @type {boolean}
+         */
         this.you = you;
+        /**
+         * All cards belonging to this player.
+         * @type {Card[]}
+         */
         this.cards = [];
         /** @type Creature */
         this.activeCreature = null;

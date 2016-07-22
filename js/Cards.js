@@ -36,10 +36,6 @@ var loadCardlist = function (thenWhat) {
                     case "Action" : cardType = "action"; break;
                 }
                 if (creatureTags.length > 0) {
-                    dice = getDiceExpression(creatureTags[0].getAttribute("d20"),
-                        creatureTags[0].getAttribute("d10"),
-                        creatureTags[0].getAttribute("d6"),
-                        creatureTags[0].getAttribute("dPlus"));
                     inherentModifiers = getInherentModifiers(creatureTags[0].getAttribute("d20"),
                         creatureTags[0].getAttribute("d10"),
                         creatureTags[0].getAttribute("d6"),
@@ -48,10 +44,6 @@ var loadCardlist = function (thenWhat) {
                     ex = creatureTags[0].getAttribute("ex");
                 }
                 else if (toolTags.length > 0) {
-                    dice = getDiceExpression(toolTags[0].getAttribute("d20"),
-                        toolTags[0].getAttribute("d10"),
-                        toolTags[0].getAttribute("d6"),
-                        toolTags[0].getAttribute("dPlus"));
                     inherentModifiers = getInherentModifiers(toolTags[0].getAttribute("d20"),
                         toolTags[0].getAttribute("d10"),
                         toolTags[0].getAttribute("d6"),
@@ -130,23 +122,7 @@ var getInherentModifiers = function (d20,d10,d6,dPlus) {
     }
     return returnArray;
 };
-var getDiceExpression = function (d20,d10,d6,dPlus) {
-  var s = "";
-  if (d20 != "0") {
-      s += d20 + "d20";
-  }
-    if (d10 != "0") {
-        if (s) s+= "+";
-        s += d10 + "d10";
-    }  if (d6 != "0") {
-        if (s) s+= "+";
-        s += d6 + "d6";
-    }  if (dPlus != "0") {
-        if (s) s+= "+";
-        s += dPlus;
-    }
-  return s;
-};
+
 var createCard = function (description) {
     var card;
     switch (description.type) {
