@@ -1,13 +1,35 @@
+/**
+ * Represents a "creature card" that can do battle in the arena.
+ */
 class Creature extends Card {
 
 
-    constructor(name, color, image, dice) {
+    constructor(name, color, image) {
         super(name, color,  image);
-        this.dice = dice;
+        /**
+         * Whether this creature already passed one turn in the arena.
+         * @type {boolean}
+         */
         this.exhausted = false;
+        /**
+         * Whether this creature is a god (Gods can only stay in the arena for one turn.)
+         * @type {boolean}
+         */
         this.god = false;
+        /**
+         * Whether this is an EX creature (EX creatures cannot be played directly.)
+         * @type {boolean}
+         */
         this.ex = false;
+        /**
+         * This creature's inherent modifiers (usually printed dice).
+         * @type {Modifier[]}
+         */
         this.inherentModifiers = [];
+        /**
+         * This creature's inherent printed abilities.
+         * @type {Ability[]}
+         */
         this.acquiredAbilities = [];
         /** @type Player */
         this.controller = null;
@@ -17,6 +39,10 @@ class Creature extends Card {
         this.attachedCards = [];
     }
 
+    /**
+     * Determines if this creature's magic abilities are suppressed by the opponent.
+     * @return {boolean}
+     */
     isSuppressed() {
         var enemyCreature = this.controller.session.enemy.activeCreature == this ?
             this.controller.session.you.activeCreature : this.controller.session.enemy.activeCreature;
@@ -34,7 +60,7 @@ class Creature extends Card {
         return false;
     }
     /**
-     *
+     * Gets the union of all abilities of this creature, including those from tools and acquired from action cards.
      * @returns Ability[]
      */
     getAbilities() {
@@ -57,6 +83,7 @@ class Creature extends Card {
             return rAbilities;
         }
     }
+
     hasOwnAbility(abilityId) {
 
         var abilities = this.inherentAbilities.concat(this.acquiredAbilities);
@@ -78,6 +105,8 @@ class Creature extends Card {
         }
         return false;
     }
+
+    // The following events occur at various points in combat:
 
     preroll() {
         
@@ -118,6 +147,10 @@ class Creature extends Card {
         return total;
     }
 
+    /**
+     * Recalculate the actual modifiers of this creature based on attached cards, acquired modifiers etc. etc.
+     * This is called always before updating the probability and certainly before actual combat resolution.
+     */
     recalculateModifiers() {
         // Basic
         this.modifiers = [];

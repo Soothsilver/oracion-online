@@ -1,3 +1,6 @@
+/**
+ * Represents a player's discard pile. This is analogous to Deck and Hand.
+ */
 class DiscardPile {
     constructor(you, cards) {
         this.you = you;
@@ -6,7 +9,9 @@ class DiscardPile {
     add(card) {
         this.cards.push(card);
     }
-    /** @type Card */
+    /**
+     * Puts the specified card on top of this discard pile. Initiates the appropriate animation.
+     * @type Card */
     discard(card) {
         if (card instanceof Creature) {
             for (var i = 0; i < card.attachedCards.length; i++) {

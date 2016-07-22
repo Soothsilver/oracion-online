@@ -1,5 +1,10 @@
+// This file loads cards from XML into a Javascript object.
 var cardlist = {};
 
+/**
+ * Loads cards from the XML file, then executes a callback.
+ * @param thenWhat A Javascript function to be executed when all cards are loaded.
+ */
 var loadCardlist = function (thenWhat) {
     log("Načítám seznam všech karet...");
     /**
@@ -60,7 +65,7 @@ var loadCardlist = function (thenWhat) {
                             var abilityTag = abilityTagsSelf[j];
                             var abilityId = abilityTag.getAttribute("id");
                             var abilityValue = abilityTag.getAttribute("value");
-                            var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                            var isMagic = abilityTag.getAttribute("isMagic") == "true";
                             addToSelf.push(new Ability(abilityId, abilityValue, isMagic));
                         }
                     }
@@ -70,7 +75,7 @@ var loadCardlist = function (thenWhat) {
                             var abilityTag = abilityTagsEnemy[j];
                             var abilityId = abilityTag.getAttribute("id");
                             var abilityValue = abilityTag.getAttribute("value");
-                            var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                            var isMagic = abilityTag.getAttribute("isMagic") == "true";
                             addToEnemy.push(new Ability(abilityId, abilityValue, isMagic));
                         }
                     }
@@ -80,7 +85,7 @@ var loadCardlist = function (thenWhat) {
                     var abilityTag = abilityTags[j];
                     var abilityId = abilityTag.getAttribute("id");
                     var abilityValue = abilityTag.getAttribute("value");
-                    var isMagic = abilityTag.getAttribute("isMagic") == "true" ? true : false;
+                    var isMagic = abilityTag.getAttribute("isMagic") == "true";
                     abilities.push(new Ability(abilityId, abilityValue, isMagic));
                 }
 
@@ -123,6 +128,11 @@ var getInherentModifiers = function (d20,d10,d6,dPlus) {
     return returnArray;
 };
 
+/**
+ * Creates a card from a Javascript description (see the function above this one).
+ * @param description Information about a card as a Javascript object.
+ * @returns {Card}
+ */
 var createCard = function (description) {
     var card;
     switch (description.type) {
@@ -131,11 +141,7 @@ var createCard = function (description) {
             if (description.god) {
                 card.god = true;
             }
-            if (description.ex == "true") {
-                card.ex = true;
-            } else {
-                card.ex = false;
-            }
+            card.ex = description.ex == "true";
             break;
         case "tool":
             card = new Tool(description.name,  description.color,  description.image,  description.dice);
@@ -156,12 +162,13 @@ var createCard = function (description) {
     return card;
 };
 /**
- * @param {MersenneTwister} twister 
+ * Gets a random card from the list of all cards.
+ * @param {MersenneTwister} twister The RNG to be used.
+ * @return {Card}
  */
 var getRandomCard = function (twister) {
     var cards = Object.keys(cardlist).map(key => cardlist[key]);
     var count = cards.length;
     var index = twister.between(0, count);
-    var card = createCard(cards[index]);
-    return card;
+    return createCard(cards[index]);
 };

@@ -49,6 +49,11 @@ class Player {
             return "Soupeř";
         }
     }
+
+    /**
+     * This is called when the AI is requested to make a move. This contains the AI logic (it's mostly "do everything that you can",
+     * "always attach tools" and "always keep the creature in the arena").
+     */
     artificialIntelligence() {
         if (this.session.gameover) {
             // Nothing to be done.
