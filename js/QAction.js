@@ -1,22 +1,49 @@
+/**
+ * A "qaction" (short for "queue action") is an item in the session queue that contains items that should be executed, in order.
+ * We use a queue instead of executing the items because animations might force us to wait.
+ *
+ */
 class QAction {
     constructor(whatToDo, waitForCalm) {
+        /**
+         * The action to perform.
+         */
         this.whatToDo = whatToDo;
+        /**
+         * Whether this action should be suspended until all animations complete.
+         */
         this.waitForCalm = waitForCalm;
     }
 }
+/**
+ * Creates a qaction that does nothing but does not execute until all animations complete.
+ */
 var QWaitForCalm = function () {
   return new QAction(()=>{}, true); 
 };
+/**
+ * Creates a qaction that puts the top card of a player's deck into his or her hand.
+ * @param player The player.
+ * @param quick Whether the movement animation should be fast.
+ * @param wait Whether we should wait for all animations to complete first.
+ * @return {QAction}
+ */
 var QDrawCard = function (player, quick = false, wait = true) {
   return new QAction(() => {
       player.drawCard(quick);
   }, wait);
 };
+/**
+ * Creates a qaction that changes the text of the left middle bar.
+ */
 var QMiddleBar = function(text) {
     return new QAction(() => {
         setMiddleBar(text);
     }, true);
 };
+
+// The following functions deal with combat.
+
 /**
  * @param {Creature} whom
  */
@@ -207,6 +234,9 @@ var QCombat = function () {
      }, true));
   }, true);
 };
+
+// The following functions deal with changing the turn state.
+
 var QStartTurn = function() {
     return new QAction(() => {
         log("<b>Začíná nové kolo!</b> Oba hráči si líznou kartu.");

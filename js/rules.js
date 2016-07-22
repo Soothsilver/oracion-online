@@ -1,3 +1,8 @@
+/**
+ * Determines whether the specified player has at least one playable creature in his or her hand.
+ * @param {Player} player
+ * @return {boolean}
+ */
 var hasCreatureInHand = function (player) {
     for (var i = 0; i < player.hand.cards.length; i++) {
         if (player.hand.cards[i] instanceof Creature) {
@@ -9,13 +14,14 @@ var hasCreatureInHand = function (player) {
     return false;
 };
 /**
- * 
+ * Determines whether the specified player can play the specified card from his or her hand at this time.
  * @param {Player} player
  * @param {Card} card
  * @returns {boolean}
  */
 var isPlayable = function (player, card) {
   if (!player.hand.cards.contains(card)) {
+      // Cards may only be played from hand.
       return false;
   }
   if (player.activeCreature == null && player.session.phase == PHASE_SEND_INTO_ARENA) {
@@ -31,9 +37,9 @@ var isPlayable = function (player, card) {
           return true;
       }
   } else if (player.activeCreature != null && (player.activeCreature instanceof Creature) && player.session.phase == PHASE_MAIN) {
-
+     // We are in the main phase.
      if (card instanceof Action) {
-         
+         // Actions have no requirements.
          return true;
      }
       if (card instanceof Tool) {

@@ -46,15 +46,24 @@ const PHASE_KEEP_THE_ANCIENT = "keep the ancient";
 const PHASE_SEND_INTO_ARENA = "send into arena";
 const PHASE_MAIN = "main phase";
 const PHASE_COMBAT = "combat";
+/**
+ * Gets a CSS z-index that is higher than any z-index used for a card previously.
+ * @return {number}
+ */
 Session.prototype.getHighZIndex = function () {
     this.highIndex++;
     return this.highIndex;
 };
+/**
+ * Gets a CSS z-index that is lower than any z-index used for a card previously.
+ * @return {number}
+ */
 Session.prototype.getLowZIndex = function () {
     this.lowIndex--;
     return this.lowIndex;
 };
 /**
+ * This is called when the specified player confirms that they want to end the main phase.
  * @param {Player} player
  */
 Session.prototype.confirmNoFurtherActions = function (player) {
@@ -76,6 +85,9 @@ Session.prototype.confirmNoFurtherActions = function (player) {
   }
   this.checkQueue();
 };
+/**
+ * This function tests whether the send-into-arena phase has bee completed and if so, it moves us to the main phase.
+ */
 Session.prototype.canWeMoveToMainPhase = function () {
   if (this.you.activeCreature != null) {
       if (this.enemy.activeCreature == null) {
@@ -96,6 +108,7 @@ Session.prototype.canWeMoveToMainPhase = function () {
   }
 };
 /**
+ * Causes the specified player to play the specified card. As a precondition, the card must be playable at this time by the given player.
  * @param {Player} player
  * @param {Card} card
  */
@@ -142,6 +155,7 @@ Session.prototype.playCard = function (player, card) {
     }
 };
 /**
+ * Adds the specified move to the outgoing queue so that it can be sent to the server.
  * @param {Move} move
  */
 Session.prototype.sendMove = function (move) {
@@ -191,6 +205,10 @@ Session.prototype.launchSend = function () {
         }
     });
 };
+/**
+ * This is called whenever the user clicks on a card.
+ * @param {Card} card
+ */
 Session.prototype.click = function (card)  {
     if (this.gameover) {
         return; // Game has already ended.
