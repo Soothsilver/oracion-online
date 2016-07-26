@@ -347,9 +347,7 @@ Session.prototype.canWeBeginNow = function () {
     if (this.decksLoaded == 2) {
         if (this.randomsLoaded == 2) {
             this.you.twister = this.yourRandom;
-            this.you.roller = new DiceRoller(this.you.twister);
             this.enemy.twister = this.enemyRandom;
-            this.enemy.roller = new DiceRoller(this.enemy.twister);
             this.gameStarts();
         } else {
             log("Čekám, než soupeř potvrdí náhodné semínko...");
