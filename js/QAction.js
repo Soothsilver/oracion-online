@@ -174,6 +174,12 @@ var spawnScoreAnimation = function(yours, enemys, result) {
 };
 var QCombat = function () {
   return new QAction(()=> {
+      if (session.you == null) {
+          log("You don't exist at start of combat.");
+      }
+      if (session.enemy == null) {
+          log("No enemy exists at start of combat.");
+      }
       session.you.activeCreature.recalculateModifiers();
       session.enemy.activeCreature.recalculateModifiers();
       session.you.activeCreature.preroll();
